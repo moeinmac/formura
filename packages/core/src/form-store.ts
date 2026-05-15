@@ -1,31 +1,47 @@
-export class FormStore {
-  private values: Record<string, any> = {};
-  private listeners = new Set<() => void>();
+import { FormValues } from "./types";
 
-  constructor(initialValues: Record<string, any> = {}) {
-    this.values = initialValues;
-  }
+export type FormStore = {
+  getValues: () => FormValues;
+  getFieldValue: (name: string) => any;
+  setFieldValue: (name: string, value: any) => void;
+  getErrors: () => Record<string, string>;
+  getFieldError: (name: string) => string | undefined;
+  setFieldError: (name: string, error: string | undefined) => void;
+  setErrors: (errors: Record<string, string>) => void;
+  subscribe: (listener: () => void) => () => void;
+};
 
-  getValues() {
-    return this.values;
-  }
+export const createFormStore = (initialValues: FormValues): FormStore => {
+  let values: FormValues = { ...initialValues };
+  let errors: Record<string, string> = {};
+  const listeners = new Set<() => void>();
 
-  getFieldValue(name: string) {
-    return this.values[name];
-  }
+  const notify = () => listeners.forEach((listener) => listener());
 
-  setFieldValue(name: string, value: any) {
-    if (this.values[name] === value) return;
-    this.values[name] = value;
-    this.notify();
-  }
-
-  subscribe(listener: () => void) {
-    this.listeners.add(listener);
-    return () => this.listeners.delete(listener);
-  }
-
-  private notify() {
-    this.listeners.forEach((listener) => listener());
-  }
-}
+  return {
+    getValues: () => values,
+    getFieldValue: (name) => values[name],
+    setFieldValue: (name, value) => {
+      if (values[name] === value) return;
+      values[name] = value;
+      if (errors[name]) delete errors[name];
+      notify();
+    },
+    getErrors: () => errors,
+    getFieldError: (name) => errors[name],
+    setFieldError: (name, error) => {
+      if (errors[name] === error) return;
+      if (error) errors[name] = error;
+      else delete errors[name];
+      notify();
+    },
+    setErrors: (newErrors) => {
+      errors = newErrors;
+      notify();
+    },
+    subscribe: (listener) => {
+      listeners.add(listener);
+      return () => listeners.delete(listener);
+    },
+  };
+};
