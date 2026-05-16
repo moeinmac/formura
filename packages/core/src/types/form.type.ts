@@ -13,4 +13,5 @@ export interface CreateFormOptions<TSchema extends ZodType> {
   GlobalErrorElement?: FC<ErrorElementProps>;
 }
 
+export type FormKeys<TSchema extends ZodType<any>> = Extract<keyof output<TSchema>, string>;
 export type FormValues = Record<string, any>;
