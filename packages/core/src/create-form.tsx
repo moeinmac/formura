@@ -57,7 +57,7 @@ export const createForm = <TSchema extends ZodType>(options: CreateFormOptions<T
           onChange={(e) => store.setFieldValue(name as string, e.target.value)}
           style={{ borderColor: error ? "red" : "initial" }}
         />
-        <ErrorElement error={error} errorElement={options.errorElement} />
+        <ErrorElement error={error} GlobalErrorElement={options.GlobalErrorElement} />
       </div>
     );
   };

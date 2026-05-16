@@ -9,8 +9,8 @@ export interface CreateFormOptions<TSchema extends ZodType> {
   schema: TSchema;
   action: (formData: FormData) => Promise<any>;
   adapter?: any;
-  defaultValues?: output<TSchema>;
-  errorElement?: FC<ErrorElementProps>;
+  defaultValues?: Partial<output<TSchema>>;
+  GlobalErrorElement?: FC<ErrorElementProps>;
 }
 
 export type FormValues = Record<string, any>;

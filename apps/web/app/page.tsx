@@ -21,7 +21,7 @@ const Home = () => {
       password: 1,
       username: "salam",
     },
-    errorElement: ErrorCom,
+    GlobalErrorElement: ErrorCom,
   });
 
   return (
