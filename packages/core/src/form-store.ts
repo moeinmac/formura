@@ -1,7 +1,7 @@
-import { FormValues } from "./types";
+import { FieldValues } from "./types";
 
 export type FormStore = {
-  getValues: () => FormValues;
+  getValues: () => FieldValues;
   getFieldValue: (name: string) => any;
   setFieldValue: (name: string, value: any) => void;
   getErrors: () => Record<string, string>;
@@ -11,8 +11,8 @@ export type FormStore = {
   subscribe: (listener: () => void) => () => void;
 };
 
-export const createFormStore = (initialValues: FormValues): FormStore => {
-  let values: FormValues = { ...initialValues };
+export const createFormStore = (initialValues: FieldValues): FormStore => {
+  let values: FieldValues = { ...initialValues };
   let errors: Record<string, string> = {};
   const listeners = new Set<() => void>();
 

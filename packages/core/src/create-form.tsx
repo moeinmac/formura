@@ -1,8 +1,8 @@
-import React, { createContext, Fragment, useContext, useRef, useSyncExternalStore } from "react";
+import React, { createContext, Fragment, ReactElement, useContext, useRef, useSyncExternalStore } from "react";
 import { output, ZodObject, ZodType } from "zod";
 import ErrorElement from "./error-element";
 import { createFormStore, type FormStore } from "./form-store";
-import { CreateFormOptions, FormKeys } from "./types";
+import { CreateFormOptions, FieldProps, FormKeys } from "./types";
 import { flattenErrors } from "./utils";
 
 export const createForm = <TSchema extends ZodType>(options: CreateFormOptions<TSchema>) => {
@@ -33,7 +33,7 @@ export const createForm = <TSchema extends ZodType>(options: CreateFormOptions<T
     );
   };
 
-  const Field = ({ name, label, placeholder }: { name: FieldName; label?: string; placeholder?: string }) => {
+  const Field = ({ name, render, disabled, label, placeholder }: FieldProps<FieldName>) => {
     const store = useContext(FormStoreContext);
     if (!store) throw new Error("Field Wrapped With Form Element");
 
@@ -80,8 +80,9 @@ export const createForm = <TSchema extends ZodType>(options: CreateFormOptions<T
           if (typeName === "number") fieldType = "number";
 
           if (description.includes("widget:otp")) fieldType = "otp";
+          return <p>Hello</p>;
 
-          return <Field key={fieldName} name={fieldName as FieldName} label={fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} />;
+          // return <Field key={fieldName}  name={fieldName as FieldName} label={fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} />;
         })}
       </Fragment>
     );

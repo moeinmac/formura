@@ -7,7 +7,7 @@ import z from "zod";
 const schema = z.object({
   username: z.string().min(2, "minimum 2"),
   password: z.coerce.number().min(1, "minum 1"),
-  otp: z.string().describe("widget:otp"),
+  otp: z.string().describe("widget:otp,title:Confirmation Code"),
 });
 
 const ErrorCom: FC<ErrorElementProps> = ({ errorMessage }) => {
@@ -22,16 +22,17 @@ const Home = () => {
       password: 1,
       username: "salam",
     },
+    adapter: "",
     GlobalErrorElement: ErrorCom,
   });
 
   return (
     <div>
       <Form>
-        <AutoFields />
-        {/* <Field name="username" placeholder="Username" />
-        <Field name="password" placeholder="Password" />
-        <button>submit</button> */}
+        {/* <AutoFields /> */}
+        <Field name="username" placeholder="Username" />
+        {/* <Field name="password" placeholder="Password" /> */}
+        {/* <button>submit</button> */}
       </Form>
     </div>
   );
