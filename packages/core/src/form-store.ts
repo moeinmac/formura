@@ -1,9 +1,10 @@
-import { FieldValues } from "./types";
+import { ZodType } from "zod";
+import { FieldValue, FormValues, FormKeys } from "./types";
 
-export type FormStore = {
-  getValues: () => FieldValues;
-  getFieldValue: (name: string) => any;
-  setFieldValue: (name: string, value: any) => void;
+export type FormStore<TSchema extends ZodType<any>, TName extends FormKeys<TSchema>> = {
+  getValues: () => FormValues;
+  getFieldValue: (name: TName) => FieldValue<TSchema, TName>;
+  setFieldValue: (name: TName, value: FieldValue<TSchema, TName>) => void;
   getErrors: () => Record<string, string>;
   getFieldError: (name: string) => string | undefined;
   setFieldError: (name: string, error: string | undefined) => void;
@@ -11,8 +12,10 @@ export type FormStore = {
   subscribe: (listener: () => void) => () => void;
 };
 
-export const createFormStore = (initialValues: FieldValues): FormStore => {
-  let values: FieldValues = { ...initialValues };
+export const createFormStore = <TSchema extends ZodType<any>, TName extends FormKeys<TSchema>>(
+  initialValues: FormValues,
+): FormStore<TSchema, TName> => {
+  let values: FormValues = { ...initialValues };
   let errors: Record<string, string> = {};
   const listeners = new Set<() => void>();
 

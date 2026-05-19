@@ -6,8 +6,7 @@ import z from "zod";
 
 const schema = z.object({
   username: z.string().min(2, "minimum 2"),
-  password: z.coerce.number().min(1, "minum 1"),
-  otp: z.string().describe("widget:otp,title:Confirmation Code"),
+  enum: z.enum(["salam", "hi"]),
 });
 
 const ErrorCom: FC<ErrorElementProps> = ({ errorMessage }) => {
@@ -19,7 +18,7 @@ const Home = () => {
     schema,
     action: () => new Promise((res, rej) => {}),
     defaultValues: {
-      password: 1,
+      enum: "hi",
       username: "salam",
     },
     adapter: "",
@@ -29,10 +28,15 @@ const Home = () => {
   return (
     <div>
       <Form>
+        <Field
+          name="enum"
+          render={({ field }) => {
+            return <div>{field.value}</div>;
+          }}
+        />
         {/* <AutoFields /> */}
-        <Field name="username" placeholder="Username" />
         {/* <Field name="password" placeholder="Password" /> */}
-        {/* <button>submit</button> */}
+        <button>submit</button>
       </Form>
     </div>
   );

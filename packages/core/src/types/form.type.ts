@@ -1,6 +1,5 @@
-import { ComponentPropsWithoutRef, FC, RefCallback, type ReactElement } from "react";
+import { ComponentPropsWithoutRef, FC } from "react";
 import { ZodType, output } from "zod";
-import { ArrayPath, Path, PathValueImpl } from "./helper.type";
 
 export interface ErrorElementProps extends ComponentPropsWithoutRef<"div"> {
   errorMessage: string;
@@ -15,30 +14,23 @@ export interface CreateFormOptions<TSchema extends ZodType> {
 }
 
 export type FormKeys<TSchema extends ZodType<any>> = Extract<keyof output<TSchema>, string>;
-export type FieldValues = Record<string, any>;
+export type FormValues = Record<string, any>;
 
-export type PathValue<T, P extends Path<T> | ArrayPath<T>> = PathValueImpl<T, P>;
+export type FieldValue<TSchema extends ZodType<any>, TName extends FormKeys<TSchema>> = output<TSchema>[TName];
 
-export type FieldPath<TFieldValues extends FieldValues = FieldValues> = Path<TFieldValues>;
-export type FieldPathValue<TFieldValues extends FieldValues, TFieldPath extends FieldPath<TFieldValues>> = PathValue<TFieldValues, TFieldPath>;
-
-type RenderFieldProps<TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> = {
-  onChange: (...event: any[]) => void;
-  onBlur?: () => {};
-  value: FieldPathValue<TFieldValues, TName>;
-  disabled?: boolean;
+export type RenderFieldProps<TSchema extends ZodType<any>, TName extends FormKeys<TSchema>> = {
   name: TName;
-  ref: RefCallback<TName>;
+  value: FieldValue<TSchema, TName>;
+  onChange: (e: any[]) => void;
+  onBlur?: (e: any) => void;
+  disabled?: boolean;
+  ref?: (instance: any) => void;
 };
 
-export interface FieldProps<
-  FieldNames,
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> {
-  name: FieldNames;
-  label?: string;
-  placeholder?: string;
+export type FieldProps<TSchema extends ZodType<any>, TName extends FormKeys<TSchema> = FormKeys<TSchema>> = {
+  name: TName;
+  render: ({ field }: { field: RenderFieldProps<TSchema, TName> }) => React.ReactNode;
   disabled?: boolean;
-  render: ({ field }: { field: RenderFieldProps<TFieldValues, TName> }) => React.ReactElement;
-}
+  label?: string;
+  ErrorElement?: FC<ErrorElementProps>;
+};

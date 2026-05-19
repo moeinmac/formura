@@ -1,17 +1,16 @@
-import React, { createContext, Fragment, ReactElement, useContext, useRef, useSyncExternalStore } from "react";
-import { output, ZodObject, ZodType } from "zod";
+import React, { createContext, Fragment, useContext, useRef, useSyncExternalStore } from "react";
+import { ZodObject, ZodType } from "zod";
 import ErrorElement from "./error-element";
 import { createFormStore, type FormStore } from "./form-store";
-import { CreateFormOptions, FieldProps, FormKeys } from "./types";
+import { CreateFormOptions, FieldProps, FieldValue, FormKeys } from "./types";
 import { flattenErrors } from "./utils";
 
 export const createForm = <TSchema extends ZodType>(options: CreateFormOptions<TSchema>) => {
-  const FormStoreContext = createContext<FormStore | null>(null);
-
-  type FieldName = FormKeys<TSchema>;
+  type FieldName = FormKeys<typeof options.schema>;
+  const FormStoreContext = createContext<FormStore<TSchema, FieldName> | null>(null);
 
   const Form = ({ children, className }: { children: React.ReactNode; className?: string }) => {
-    const storeRef = useRef(createFormStore(options.defaultValues ?? {}));
+    const storeRef = useRef(createFormStore<TSchema, FieldName>(options.defaultValues ?? {}));
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       const currentValues = storeRef.current.getValues();
@@ -33,15 +32,16 @@ export const createForm = <TSchema extends ZodType>(options: CreateFormOptions<T
     );
   };
 
-  const Field = ({ name, render, disabled, label, placeholder }: FieldProps<FieldName>) => {
+  const Field = <TName extends FieldName>({ name, render, disabled, label }: FieldProps<typeof options.schema, TName>) => {
     const store = useContext(FormStoreContext);
     if (!store) throw new Error("Field Wrapped With Form Element");
 
-    const value = useSyncExternalStore(
+    const value = useSyncExternalStore<FieldValue<TSchema, TName>>(
       (notify) => store.subscribe(notify),
-      () => store.getFieldValue(name) ?? "",
-      () => "",
+      () => store.getFieldValue(name) as FieldValue<TSchema, TName>,
+      () => "" as FieldValue<TSchema, TName>,
     );
+
     const error = useSyncExternalStore(
       (notify) => store.subscribe(notify),
       () => store.getFieldError(name),
@@ -51,14 +51,9 @@ export const createForm = <TSchema extends ZodType>(options: CreateFormOptions<T
     return (
       <div className="formura-field-group" style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
         {label && <label htmlFor={name}>{label}</label>}
-        <input
-          id={name}
-          name={name}
-          value={value}
-          placeholder={placeholder}
-          onChange={(e) => store.setFieldValue(name, e.target.value)}
-          style={{ borderColor: error ? "red" : "initial" }}
-        />
+        {render({
+          field: { name, disabled, onChange: (e: any) => store.setFieldValue(name, e?.target?.value), value },
+        })}
         <ErrorElement error={error} GlobalErrorElement={options.GlobalErrorElement} />
       </div>
     );
@@ -81,8 +76,6 @@ export const createForm = <TSchema extends ZodType>(options: CreateFormOptions<T
 
           if (description.includes("widget:otp")) fieldType = "otp";
           return <p>Hello</p>;
-
-          // return <Field key={fieldName}  name={fieldName as FieldName} label={fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} />;
         })}
       </Fragment>
     );
