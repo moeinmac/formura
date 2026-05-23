@@ -1,5 +1,5 @@
-import React, { createContext, Fragment, useContext, useRef, useSyncExternalStore } from "react";
-import { ZodObject, ZodType } from "zod";
+import React, { Children, createContext, isValidElement, useContext, useRef, useSyncExternalStore } from "react";
+import { ZodType } from "zod";
 import ErrorElement from "./error-element";
 import { createFormStore, type FormStore } from "./form-store";
 import { CreateFormOptions, FieldProps, FieldValue, FormKeys } from "./types";
@@ -9,7 +9,7 @@ export const createForm = <TSchema extends ZodType>(options: CreateFormOptions<T
   type FieldName = FormKeys<typeof options.schema>;
   const FormStoreContext = createContext<FormStore<TSchema, FieldName> | null>(null);
 
-  const Form = ({ children, className }: { children: React.ReactNode; className?: string }) => {
+  const Form = ({ children, className }: { children?: React.ReactNode; className?: string }) => {
     const storeRef = useRef(createFormStore<TSchema, FieldName>(options.defaultValues ?? {}));
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -23,10 +23,20 @@ export const createForm = <TSchema extends ZodType>(options: CreateFormOptions<T
       }
     };
 
+    const childArray = Children.toArray(children);
+    const customValidFields = childArray.filter((child) => isValidElement(child) && child.type === Field);
+
+    if (childArray.length > 0 && customValidFields.length === 0) throw new Error("For rending custom fields use 'Field' components.");
+    if (customValidFields.length < childArray.length) console.warn("Just the 'Field' components are rendered! ");
+
+    const customFieldNames = customValidFields.map(
+      (field) => isValidElement<FieldProps<typeof options.schema, FieldName>>(field) && field.props.name,
+    ) as FormKeys<TSchema>[];
+
     return (
       <FormStoreContext.Provider value={storeRef.current}>
         <form action={options.action} onSubmit={handleSubmit} className={className}>
-          {children}
+          {...customValidFields}
         </form>
       </FormStoreContext.Provider>
     );
@@ -59,27 +69,5 @@ export const createForm = <TSchema extends ZodType>(options: CreateFormOptions<T
     );
   };
 
-  const AutoFields = ({ omit = [] }: { omit?: Array<FieldName> }) => {
-    const shape = options.schema.type === "object" ? (options.schema.def as ZodObject).shape : {};
-
-    return (
-      <Fragment>
-        {Object.entries(shape).map(([fieldName, zodDef]: [string, any]) => {
-          if (omit.includes(fieldName as FieldName)) return null;
-          const typeName = zodDef.def.type;
-          const description = zodDef.description || "";
-
-          // Some Dummy Automation For Test
-          let fieldType: "text" | "number" | "otp" = "text";
-
-          if (typeName === "number") fieldType = "number";
-
-          if (description.includes("widget:otp")) fieldType = "otp";
-          return <p>Hello</p>;
-        })}
-      </Fragment>
-    );
-  };
-
-  return { Form, Field, AutoFields };
+  return { Form, Field };
 };

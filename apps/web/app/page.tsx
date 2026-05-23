@@ -14,7 +14,7 @@ const ErrorCom: FC<ErrorElementProps> = ({ errorMessage }) => {
 };
 
 const Home = () => {
-  const { Form, Field, AutoFields } = createForm({
+  const { Form, Field } = createForm({
     schema,
     action: () => new Promise((res, rej) => {}),
     defaultValues: {
@@ -22,22 +22,12 @@ const Home = () => {
       username: "salam",
     },
     adapter: "",
-    GlobalErrorElement: ErrorCom,
+    GlobalErrorElement: (props) => <div>{props.errorMessage}</div>,
   });
 
   return (
     <div>
-      <Form>
-        <Field
-          name="enum"
-          render={({ field }) => {
-            return <div>{field.value}</div>;
-          }}
-        />
-        {/* <AutoFields /> */}
-        {/* <Field name="password" placeholder="Password" /> */}
-        <button>submit</button>
-      </Form>
+      <Form />
     </div>
   );
 };
