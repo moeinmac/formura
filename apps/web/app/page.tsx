@@ -1,35 +1,42 @@
+// app/signup-form.tsx
 "use client";
 
-import { createForm, ErrorElementProps } from "@formura/core";
-import { FC } from "react";
-import z from "zod";
+import React from "react";
+import { z } from "zod";
+import { signupAction } from "./actions";
+import { createForm } from "@formura/core";
 
-const schema = z.object({
-  username: z.string().min(2, "minimum 2"),
-  enum: z.enum(["salam", "hi"]),
+const userSchema = z.object({
+  username: z.string().min(3, "Must span at least 3 characters"),
+  email: z.email("Invalid email layout"),
 });
 
-const ErrorCom: FC<ErrorElementProps> = ({ errorMessage }) => {
-  return <div>Error : {errorMessage}</div>;
-};
+const { Form, Field, useFormState } = createForm({
+  schema: userSchema,
+  action: signupAction,
+  defaultValues: { username: "", email: "" },
+  GlobalErrorElement: ({ errorMessage }) => <span style={{ color: "red", fontSize: "12px" }}>{errorMessage}</span>,
+});
 
-const Home = () => {
-  const { Form, Field } = createForm({
-    schema,
-    action: () => new Promise((res, rej) => {}),
-    defaultValues: {
-      enum: "hi",
-      username: "salam",
-    },
-    adapter: "",
-    GlobalErrorElement: (props) => <div>{props.errorMessage}</div>,
-  });
+// A localized submit button utilizing action statuses deep within the component tree
+const SubmitButton = () => {
+  const { isSubmitting } = useFormState();
 
   return (
-    <div>
-      <Form />
-    </div>
+    <button type="submit" disabled={isSubmitting}>
+      {isSubmitting ? "Processing Transaction..." : "Register Account"}
+    </button>
   );
 };
 
-export default Home;
+export default function SignupForm() {
+  return (
+    <Form className="space-y-4">
+      <Field name="username" label="Username" render={({ field }) => <input {...field} className="border p-2" placeholder="Pick a persona" />} />
+
+      <Field name="email" label="Email Address" render={({ field }) => <input {...field} type="email" className="border p-2" />} />
+
+      <SubmitButton />
+    </Form>
+  );
+}

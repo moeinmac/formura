@@ -11,6 +11,7 @@ export const flattenErrors = <TSchema extends ZodType>(errors: ZodError<output<T
   });
   return formattedErrors;
 };
+
 export const fieldMapper = <TSchema extends ZodObject<any>>(zodObject: ZodObject, customFieldNames: FormKeys<TSchema>) => {
   const customFieldNamesSet = new Set(...customFieldNames);
   Object.entries(zodObject.shape).map(([fieldName, zodDef]: [string, any]) => {
