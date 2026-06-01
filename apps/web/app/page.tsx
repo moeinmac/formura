@@ -3,7 +3,7 @@
 
 import React from "react";
 import { z } from "zod";
-import { createForm } from "@formura/core/";
+import { createForm } from "@formura/core";
 import { clientAction } from "./client-action";
 
 export const userSchema = z.object({
