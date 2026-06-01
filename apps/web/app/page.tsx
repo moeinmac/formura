@@ -3,18 +3,18 @@
 
 import React from "react";
 import { z } from "zod";
-import { signupAction } from "./actions";
-import { createForm } from "@formura/core";
+import { createForm } from "@formura/core/";
+import { clientAction } from "./client-action";
 
-const userSchema = z.object({
+export const userSchema = z.object({
   username: z.string().min(3, "Must span at least 3 characters"),
-  email: z.email("Invalid email layout"),
+  password: z.string().min(1, "Filled the password"),
 });
 
 const { Form, Field, useFormState } = createForm({
   schema: userSchema,
-  action: signupAction,
-  defaultValues: { username: "", email: "" },
+  action: clientAction,
+  defaultValues: { username: "", password: "" },
   GlobalErrorElement: ({ errorMessage }) => <span style={{ color: "red", fontSize: "12px" }}>{errorMessage}</span>,
 });
 
@@ -33,9 +33,7 @@ export default function SignupForm() {
   return (
     <Form className="space-y-4">
       <Field name="username" label="Username" render={({ field }) => <input {...field} className="border p-2" placeholder="Pick a persona" />} />
-
-      <Field name="email" label="Email Address" render={({ field }) => <input {...field} type="email" className="border p-2" />} />
-
+      <Field name="password" label="Password" render={({ field }) => <input {...field} type="password" className="border p-2" />} />
       <SubmitButton />
     </Form>
   );
