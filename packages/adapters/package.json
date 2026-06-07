@@ -1,6 +1,17 @@
 {
   "name": "@formura/adapters",
   "version": "0.0.1",
+  "description": "UI adapters that render Formura fields from Zod schema metadata",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/moeinmac/formura.git",
+    "directory": "packages/adapters"
+  },
+  "files": ["dist"],
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "./dist/shadcn.js",
   "module": "./dist/shadcn.mjs",
   "types": "./dist/shadcn.d.ts",
