@@ -1,0 +1,53 @@
+import { OTPInput, OTPInputContext } from "input-otp";
+import * as React from "react";
+import { cn } from "../lib/utils";
+
+export const InputOTP = React.forwardRef<
+  React.ComponentRef<typeof OTPInput>,
+  React.ComponentPropsWithoutRef<typeof OTPInput>
+>(({ className, containerClassName, ...props }, ref) => (
+  <OTPInput
+    ref={ref}
+    containerClassName={cn("flex items-center gap-2", containerClassName)}
+    className={cn("disabled:cursor-not-allowed", className)}
+    {...props}
+  />
+));
+InputOTP.displayName = "InputOTP";
+
+export const InputOTPGroup = React.forwardRef<HTMLDivElement, React.ComponentProps<"div">>(
+  ({ className, ...props }, ref) => <div ref={ref} className={cn("flex items-center", className)} {...props} />,
+);
+InputOTPGroup.displayName = "InputOTPGroup";
+
+export const InputOTPSlot = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentProps<"div"> & { index: number }
+>(({ index, className, ...props }, ref) => {
+  const inputOTPContext = React.useContext(OTPInputContext);
+  const { char, hasFakeCaret, isActive } = inputOTPContext.slots[index] ?? {
+    char: "",
+    hasFakeCaret: false,
+    isActive: false,
+  };
+
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        "relative flex h-9 w-9 items-center justify-center border-y border-r border-neutral-300 text-sm shadow-sm transition-all first:rounded-l-md first:border-l last:rounded-r-md",
+        isActive && "z-10 ring-1 ring-neutral-400",
+        className,
+      )}
+      {...props}
+    >
+      {char}
+      {hasFakeCaret && (
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+          <div className="h-4 w-px animate-pulse bg-neutral-950" />
+        </div>
+      )}
+    </div>
+  );
+});
+InputOTPSlot.displayName = "InputOTPSlot";

@@ -1,0 +1,45 @@
+{
+  "name": "@formura/adapters",
+  "version": "0.0.1",
+  "main": "./dist/shadcn.js",
+  "module": "./dist/shadcn.mjs",
+  "types": "./dist/shadcn.d.ts",
+  "exports": {
+    "./shadcn": {
+      "types": "./dist/shadcn.d.ts",
+      "import": "./dist/shadcn.mjs",
+      "require": "./dist/shadcn.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup --format cjs,esm --dts",
+    "dev": "tsup --format cjs,esm --dts --watch",
+    "check-types": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0 || ^19.0.0",
+    "react-dom": "^18.2.0 || ^19.0.0"
+  },
+  "dependencies": {
+    "@formura/core": "workspace:*",
+    "@radix-ui/react-checkbox": "^1.3.2",
+    "@radix-ui/react-label": "^2.1.7",
+    "@radix-ui/react-select": "^2.2.5",
+    "@radix-ui/react-slot": "^1.2.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "input-otp": "^1.4.2",
+    "tailwind-merge": "^3.3.1"
+  },
+  "devDependencies": {
+    "@formura/core": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0",
+    "zod": "^4.4.3"
+  }
+}

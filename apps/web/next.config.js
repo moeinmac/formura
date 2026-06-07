@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  transpilePackages: ["@formura/core", "@formura/adapters"],
+};
 
 export default nextConfig;

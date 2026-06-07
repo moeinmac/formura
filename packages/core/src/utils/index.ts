@@ -1,7 +1,8 @@
-import { output, ZodError, ZodObject, ZodType } from "zod";
-import { FormKeys } from "../types";
+import { output, ZodError, ZodType } from "zod";
 
-export const flattenErrors = <TSchema extends ZodType>(errors: ZodError<output<TSchema>>) => {
+export const flattenErrors = <TSchema extends ZodType>(
+  errors: ZodError<output<TSchema>>,
+) => {
   const formattedErrors: Record<string, string> = {};
   errors.issues.forEach((issue) => {
     const path = issue.path.join(".");
@@ -12,21 +13,11 @@ export const flattenErrors = <TSchema extends ZodType>(errors: ZodError<output<T
   return formattedErrors;
 };
 
-export const fieldMapper = <TSchema extends ZodObject<any>>(zodObject: ZodObject, customFieldNames: FormKeys<TSchema>) => {
-  const customFieldNamesSet = new Set(...customFieldNames);
-  Object.entries(zodObject.shape).map(([fieldName, zodDef]: [string, any]) => {
-    if (customFieldNamesSet.has(fieldName)) return;
-
-    const typeName = zodDef.def.type;
-    const description = zodDef.description || "";
-
-    // Some Dummy Automation For Test
-    let fieldType: "text" | "number" | "otp" = "text";
-
-    if (typeName === "number") fieldType = "number";
-
-    if (description.includes("widget:otp")) fieldType = "otp";
-
-    return "";
-  });
-};
+export { asClientAction, toFormData } from "./action.utils";
+export {
+  inferFieldMeta,
+  getFieldSchema,
+  unwrapFieldSchema,
+  getSchemaFieldKeys,
+  formatFieldLabel,
+} from "./fieldMeta.utils";
