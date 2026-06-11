@@ -1,14 +1,16 @@
 {
   "name": "@formura/core",
   "version": "0.0.1",
-  "description": "Form builder core for React and Zod with server action support",
+  "description": "Schema goes in, complete forms come out. Zero boilerplate, infinite DX, and Server Actions built right in",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/moeinmac/formura.git",
     "directory": "packages/core"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "publishConfig": {
     "access": "public"
   },
