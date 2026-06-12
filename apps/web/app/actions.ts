@@ -1,20 +1,38 @@
 "use server";
 
+import type { ActionResult } from "@formura/core";
 import { asServerAction } from "@formura/core/server";
 
-export const signupAction = asServerAction(async (prevState, formData) => {
-  const username = formData.get("username");
+type SignupData = {
+  userId: string;
+  username: FormDataEntryValue | null;
+  email: FormDataEntryValue | null;
+};
 
-  if (username === "admin") {
+export const signupAction = asServerAction<SignupData>(
+  async (_prevState, formData): Promise<ActionResult<SignupData>> => {
+    const username = formData.get("username");
+    const email = formData.get("email");
+
+    if (username === "admin") {
+      return {
+        status: "error",
+        message: "Database rejection",
+        fieldErrors: { username: "This handle is strictly reserved." },
+      };
+    }
+
+    if (email === "taken@example.com") {
+      return {
+        status: "error",
+        message: "Email already registered.",
+        fieldErrors: { email: "This email is already in use." },
+      };
+    }
+
     return {
-      status: "error",
-      message: "Database rejection",
-      fieldErrors: { username: "This handle is strictly reserved." },
+      status: "success",
+      data: { userId: "user_99a8f", username, email },
     };
-  }
-
-  return {
-    status: "success",
-    data: { userId: "user_99a8f" },
-  };
-});
+  },
+);

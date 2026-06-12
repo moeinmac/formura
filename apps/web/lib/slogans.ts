@@ -1,0 +1,17 @@
+export const slogans = [
+  "Client action? Server action? Formura doesn't care, it just works.",
+  "Formura: Because writing forms shouldn't make you question your career choices.",
+  "Therapy is expensive. Formura is free.",
+  "One schema to rule them all, one adapter to render them.",
+  "Forms without the therapy session.",
+  "Schema in. Form out. Go touch grass.",
+  "The only form library that won't make you question your career choices.",
+  "Boilerplate is a crime. Formura is the lawyer.",
+  "Zod goes in, complete forms come out. Zero boilerplate, infinite DX, and Server Actions built right in.",
+  "Forms suck. Formura sucks significantly less.",
+  "Your schema called. It wants to be a form.",
+  "Every handwritten form is a cry for help.",
+  "For developers who've suffered enough.",
+  "Turn your Zod schema into a full form faster than your npm install finishes.",
+  "RHF who? (We still love you. From a distance.)",
+] as const;
