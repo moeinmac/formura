@@ -1,159 +1,154 @@
-# Turborepo starter
+# Formura
 
-This Turborepo starter is maintained by the Turborepo core team.
+**Schema in. Form out.**
 
-## Using this example
+One schema to rule them all, one adapter to render them.
 
-Run the following command:
+Formura is a schema-first form library for React and Next.js. Define a Zod object schema, wire a server or client action, and get auto-rendered fields, built-in validation, field-level errors, and typed submission state — no `register` calls, no field arrays, no adapter boilerplate.
 
-```sh
-npx create-turbo@latest
+## Packages
+
+| Package | Description |
+| ------- | ----------- |
+| [`@formura/core`](./packages/core) | `createForm`, action helpers, validation, and form state |
+| [`@formura/adapters`](./packages/adapters) | UI adapters that render fields from Zod schema metadata |
+
+## Install
+
+```bash
+pnpm add @formura/core @formura/adapters
 ```
 
-## What's inside?
-
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo build
+```bash
+npm install @formura/core @formura/adapters
 ```
 
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo build
-pnpm dlx turbo build
-pnpm exec turbo build
+```bash
+yarn add @formura/core @formura/adapters
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+## Quick example
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+```tsx
+import { z } from "zod";
+import { createForm } from "@formura/core";
+import { asClientAction } from "@formura/core";
+import shadcnAdapter from "@formura/adapters/shadcn";
 
-```sh
-turbo build --filter=docs
+const schema = z.object({
+  username: z.string().min(2),
+  email: z.string().email(),
+});
+
+const action = asClientAction<typeof schema>(async (values) => ({
+  status: "success",
+  data: values,
+}));
+
+const { Form } = createForm({
+  schema,
+  adapter: shadcnAdapter,
+  action,
+  defaultValues: { username: "", email: "" },
+});
+
+export const ProfileForm = () => (
+  <Form className="space-y-4">
+    <button type="submit">Save</button>
+  </Form>
+);
 ```
 
-Without global `turbo`:
+With a Next.js Server Action, tag your handler with `asServerAction` from `@formura/core/server` instead. See the [getting started guide](./apps/web/app/docs/page.tsx) for the full walkthrough.
 
-```sh
-npx turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+## Features
+
+- **Zero boilerplate** — Zod schema drives widgets, labels, and validation
+- **Server Actions** — `asServerAction` handles `prevState`, `FormData`, and field errors
+- **Client actions** — `asClientAction` for typed client-side submissions with the same API
+- **Widget inference** — strings, numbers, enums, booleans map to the right input; override with `.describe("widget:otp")`
+- **shadcn adapter** — polished defaults via `@formura/adapters/shadcn`
+- **App Router ready** — built for Next.js 14+ and React 18/19
+
+## Documentation
+
+Docs live in the `apps/web` Next.js app:
+
+- [Getting started](./apps/web/app/docs/page.tsx)
+- [Actions](./apps/web/app/docs/actions/page.tsx)
+- [`createForm` API](./apps/web/app/docs/create-form/page.tsx)
+- [Fields](./apps/web/app/docs/fields/page.tsx)
+- [Widgets](./apps/web/app/docs/widgets/page.tsx)
+- [Adapters](./apps/web/app/docs/adapters/page.tsx)
+- [Examples](./apps/web/app/examples/page.tsx)
+
+Run the docs site locally:
+
+```bash
+pnpm install
+pnpm dev --filter=web
 ```
 
-### Develop
+Then open [http://localhost:3000/docs](http://localhost:3000/docs).
 
-To develop all apps and packages, run the following command:
+## Repository structure
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo dev
+```
+formura/
+├── apps/
+│   └── web/              # Marketing site, docs, and live examples
+├── packages/
+│   ├── core/             # @formura/core
+│   ├── adapters/         # @formura/adapters
+│   ├── eslint-config/    # Shared ESLint config
+│   └── typescript-config/# Shared TypeScript config
 ```
 
-Without global `turbo`, use your package manager:
+## Development
 
-```sh
-cd my-turborepo
-npx turbo dev
-pnpm exec turbo dev
-pnpm exec turbo dev
+**Requirements:** Node.js 18+, pnpm 9
+
+```bash
+# Install dependencies
+pnpm install
+
+# Build all packages
+pnpm build
+
+# Run the docs site
+pnpm dev --filter=web
+
+# Type-check
+pnpm check-types
+
+# Test core package
+pnpm --filter @formura/core test
 ```
 
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+Build a single package:
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo dev --filter=web
+```bash
+pnpm build --filter=@formura/core
+pnpm build --filter=@formura/adapters
 ```
 
-Without global `turbo`:
+## Prerequisites for consumers
 
-```sh
-npx turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
+- React 18.2+ or 19
+- Next.js 14+ (for Server Actions)
+- Zod 4+
+- Tailwind CSS 4+ (when using `@formura/adapters`)
+
+Include adapter sources in your Tailwind content paths:
+
+```css
+@source "../../../node_modules/@formura/adapters/dist/**/*.{js,mjs}";
 ```
 
-### Remote Caching
+## Contributing
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+Issues and pull requests are welcome on [GitHub](https://github.com/moeinmac/formura).
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+## License
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo login
-pnpm exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-pnpm exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+MIT

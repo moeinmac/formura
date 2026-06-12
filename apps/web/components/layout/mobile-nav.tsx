@@ -10,7 +10,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { navItems } from "@/lib/site-config";
+import { navItems, siteConfig } from "@/lib/site-config";
 
 export const MobileNav = () => (
   <Sheet>
@@ -25,27 +25,20 @@ export const MobileNav = () => (
         <SheetTitle>Menu</SheetTitle>
       </SheetHeader>
       <nav className="mt-6 flex flex-col gap-2">
-        {navItems.map((item) => {
-          if (item.external) {
-            return (
-              <Button key={item.href} variant="ghost" className="justify-start" asChild>
-                <a
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {item.label}
-                </a>
-              </Button>
-            );
-          }
-
-          return (
-            <Button key={item.href} variant="ghost" className="justify-start" asChild>
-              <Link href={item.href}>{item.label}</Link>
-            </Button>
-          );
-        })}
+        {navItems.map((item) => (
+          <Button key={item.href} variant="ghost" className="justify-start" asChild>
+            <Link href={item.href}>{item.label}</Link>
+          </Button>
+        ))}
+        <Button variant="ghost" className="justify-start" asChild>
+          <a
+            href={siteConfig.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub
+          </a>
+        </Button>
         <Button className="mt-4 bg-violet-500 text-white hover:bg-violet-400" asChild>
           <Link href="/docs">Get Started</Link>
         </Button>

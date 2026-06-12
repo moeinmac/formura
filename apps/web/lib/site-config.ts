@@ -8,6 +8,7 @@ export const siteConfig = {
   docsDescription:
     "Formura is a schema-first form library for React and Next.js. Give createForm a Zod object schema, wire a server or client action, and get auto-rendered fields, built-in validation, field-level errors, and typed submission state — no register calls, no field arrays, no adapter boilerplate.",
   githubUrl: "https://github.com/moeinmac/formura",
+  githubApiUrl: "https://api.github.com/repos/moeinmac/formura",
 } as const;
 
 export type NavItem = {
@@ -19,7 +20,6 @@ export type NavItem = {
 export const navItems: NavItem[] = [
   { label: "Docs", href: "/docs" },
   { label: "Examples", href: "/examples" },
-  { label: "GitHub", href: siteConfig.githubUrl, external: true },
 ];
 
 export type DocsNavItem = {
