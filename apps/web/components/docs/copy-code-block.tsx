@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Copy } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { CheckIcon } from "../ui/check";
+import { CopyIcon } from "../ui/copy";
 
 type CopyCodeBlockProps = {
   children: string;
@@ -46,9 +47,9 @@ export const CopyCodeBlock = ({
           className="absolute top-3 right-3 rounded-md border border-border/60 bg-background/80 p-1.5 text-muted-foreground opacity-0 transition hover:text-foreground group-hover:opacity-100 focus:opacity-100"
         >
           {copied ? (
-            <Check className="size-4 text-violet-400" />
+            <CheckIcon className="size-4 text-violet-400" size={16} />
           ) : (
-            <Copy className="size-4" />
+            <CopyIcon className="size-4" size={16} />
           )}
         </button>
       </div>

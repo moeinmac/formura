@@ -1,10 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Braces, FormInput, Wand2 } from "lucide-react";
+import { Braces, FormInput, Wand2 } from "lucide-react";
 import { Section, SectionHeader } from "./section";
 import { CodeBlock } from "./code-block";
 import { useReducedMotion } from "@/lib/use-reduced-motion";
+import { ArrowRightIcon } from "../ui/arrow-right";
 
 const steps = [
   {
@@ -58,19 +59,20 @@ export const HowItWorks = () => {
             transition={{ delay: i * 0.15, duration: 0.5 }}
             className="relative"
           >
-            {i < steps.length - 1 && (
-              <ArrowRight className="absolute -right-4 top-8 hidden size-5 text-muted-foreground/40 lg:block" />
-            )}
             <div className="mb-4 flex items-center gap-3">
               <div className="flex size-10 items-center justify-center rounded-lg bg-violet-500/10 text-violet-400 ring-1 ring-violet-500/20">
                 <step.icon className="size-5" />
               </div>
+
               <div>
                 <p className="text-xs font-medium text-muted-foreground">
                   Step {i + 1}
                 </p>
                 <h3 className="font-semibold">{step.title}</h3>
               </div>
+              {i < steps.length - 1 && (
+                <ArrowRightIcon className="hidden m-0 ml-auto size-5 text-muted-foreground/40 lg:block" />
+              )}
             </div>
             <CodeBlock>{step.code}</CodeBlock>
           </motion.div>

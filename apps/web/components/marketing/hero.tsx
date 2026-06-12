@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { SparklesCore } from "@/components/ui/sparkles";
+import { SparklesCore } from "@/components/ui/sparkles-hero";
 import { Button } from "@/components/ui/button";
 import { InstallPill } from "./install-pill";
 import { siteConfig } from "@/lib/site-config";

@@ -12,7 +12,7 @@ export const CtaSection = () => (
           Stop handwriting forms.
         </h2>
         <p className="mx-auto mt-3 max-w-lg text-muted-foreground">
-          Your schema already knows what fields you need. Let Formura do the rest.
+          Every handwritten form is a cry for help.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <Button

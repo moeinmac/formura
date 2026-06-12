@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Copy } from "lucide-react";
 import { motion } from "framer-motion";
 import { installCommands } from "@/lib/package-manager";
 import { usePackageManager } from "@/lib/use-package-manager";
 import { cn } from "@/lib/utils";
+
+import { CheckIcon } from "../ui/check";
+import { CopyIcon } from "../ui/copy";
 
 export const InstallPill = () => {
   const [copied, setCopied] = useState(false);
@@ -33,9 +35,12 @@ export const InstallPill = () => {
       <span className="text-violet-400">$</span>
       <span>{installCommand}</span>
       {copied ? (
-        <Check className="size-4 text-violet-400" />
+        <CheckIcon size={16} className="size-4 text-violet-400" />
       ) : (
-        <Copy className="size-4 opacity-50 transition group-hover:opacity-100" />
+        <CopyIcon
+          size={16}
+          className="size-4 opacity-50 transition group-hover:opacity-100"
+        />
       )}
     </motion.button>
   );

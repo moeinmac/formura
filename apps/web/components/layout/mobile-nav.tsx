@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -11,6 +10,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { navItems, siteConfig } from "@/lib/site-config";
+import { Menu } from "lucide-react";
 
 export const MobileNav = () => (
   <Sheet>
@@ -26,7 +26,12 @@ export const MobileNav = () => (
       </SheetHeader>
       <nav className="mt-6 flex flex-col gap-2">
         {navItems.map((item) => (
-          <Button key={item.href} variant="ghost" className="justify-start" asChild>
+          <Button
+            key={item.href}
+            variant="ghost"
+            className="justify-start"
+            asChild
+          >
             <Link href={item.href}>{item.label}</Link>
           </Button>
         ))}
@@ -39,7 +44,10 @@ export const MobileNav = () => (
             GitHub
           </a>
         </Button>
-        <Button className="mt-4 bg-violet-500 text-white hover:bg-violet-400" asChild>
+        <Button
+          className="mt-4 w-24 ml-2 bg-violet-500 text-white hover:bg-violet-400"
+          asChild
+        >
           <Link href="/docs">Get Started</Link>
         </Button>
       </nav>
