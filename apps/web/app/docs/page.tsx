@@ -1,69 +1,65 @@
 import Link from "next/link";
-import { CodeBlock } from "@/components/marketing/code-block";
+import { PackageManagerTabs } from "@/components/docs/package-manager-tabs";
+import { DocsCallout } from "@/components/docs/docs-callout";
+import { DocsSection } from "@/components/docs/docs-section";
+import { DocsNextLink } from "@/components/docs/docs-next-link";
+import { CopyCodeBlock } from "@/components/docs/copy-code-block";
 import { siteConfig } from "@/lib/site-config";
 
 export default function DocsPage() {
   return (
-    <article className="prose prose-invert max-w-none">
+    <article>
       <h1 className="text-3xl font-bold tracking-tight">Getting Started</h1>
       <p className="mt-3 text-lg text-muted-foreground">
         {siteConfig.description}
       </p>
 
-      <section className="mt-10 space-y-4">
-        <h2 className="text-xl font-semibold">Install</h2>
-        <CodeBlock>{siteConfig.installCommand}</CodeBlock>
+      <DocsCallout className="mt-6">
+        Schema in. Form out. Go touch grass.
+      </DocsCallout>
+
+      <DocsSection id="install" title="Install" className="mt-10">
+        <PackageManagerTabs />
         <p className="text-sm text-muted-foreground">
           Your app needs Tailwind CSS so adapter utility classes apply.
         </p>
-      </section>
+      </DocsSection>
 
-      <section className="mt-10 space-y-4">
-        <h2 className="text-xl font-semibold">Tailwind setup</h2>
+      <DocsSection id="prerequisites" title="Prerequisites" className="mt-10">
+        <ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
+          <li>React 18.2+ or 19</li>
+          <li>Next.js 14+ (for Server Actions)</li>
+          <li>Zod 4+</li>
+          <li>Tailwind CSS 4+</li>
+        </ul>
+      </DocsSection>
+
+      <DocsSection id="tailwind" title="Tailwind setup" className="mt-10">
         <p className="text-sm text-muted-foreground">
           Include adapter sources in your Tailwind content paths:
         </p>
-        <CodeBlock>{`@source "../../../packages/adapters/src/**/*.{ts,tsx}";`}</CodeBlock>
-      </section>
-
-      <section className="mt-10 space-y-4">
-        <h2 className="text-xl font-semibold">Basic usage</h2>
-        <CodeBlock title="form.tsx">{`import { createForm } from "@formura/core";
-import shadcnAdapter from "@formura/adapters/shadcn";
-import { z } from "zod";
-
-const userSchema = z.object({
-  username: z.string().min(2),
-  email: z.string().email(),
-});
-
-const { Form, Field } = createForm({
-  schema: userSchema,
-  adapter: shadcnAdapter,
-  action: signupAction,
-  defaultValues: { username: "", email: "" },
-});
-
-export function SignupForm() {
-  return (
-    <Form className="space-y-4">
-      <button type="submit">Sign up</button>
-    </Form>
-  );
-}`}</CodeBlock>
+        <CopyCodeBlock>{`@source "../../../node_modules/@formura/adapters/dist/**/*.{js,mjs}";`}</CopyCodeBlock>
         <p className="text-sm text-muted-foreground">
-          When an adapter is provided, fields are auto-rendered from your schema.
-          You can still add custom children inside <code className="text-foreground">Form</code>.
+          In a monorepo, point at the package source instead:
         </p>
-      </section>
+        <CopyCodeBlock>{`@source "../../../packages/adapters/src/**/*.{ts,tsx}";`}</CopyCodeBlock>
+      </DocsSection>
 
-      <section className="mt-10 space-y-4">
-        <h2 className="text-xl font-semibold">Server Actions</h2>
-        <CodeBlock title="actions.ts">{`"use server";
+      <DocsSection id="quickstart" title="Quick start" className="mt-10">
+        <p className="text-sm text-muted-foreground">
+          Define a schema, wire an action, and let Formura render the fields.
+        </p>
+        <CopyCodeBlock title="schema.ts">{`import { z } from "zod";
+
+export const signupSchema = z.object({
+  username: z.string().min(2, "At least 2 characters"),
+  email: z.string().email("Invalid email"),
+});`}</CopyCodeBlock>
+        <CopyCodeBlock title="actions.ts">{`"use server";
 
 import { asServerAction } from "@formura/core/server";
 
-export const signupAction = asServerAction(async (prevState, formData) => {
+export const signupAction = asServerAction(async (_prevState, formData) => {
   const username = formData.get("username");
 
   if (username === "admin") {
@@ -74,43 +70,59 @@ export const signupAction = asServerAction(async (prevState, formData) => {
   }
 
   return { status: "success", data: { userId: "user_123" } };
-});`}</CodeBlock>
-      </section>
+});`}</CopyCodeBlock>
+        <CopyCodeBlock title="signup-form.tsx">{`"use client";
 
-      <section className="mt-10 space-y-4">
-        <h2 className="text-xl font-semibold">Client Actions</h2>
-        <CodeBlock title="client-action.ts">{`import { asClientAction } from "@formura/core";
+import { createForm } from "@formura/core";
+import shadcnAdapter from "@formura/adapters/shadcn";
+import { signupSchema } from "./schema";
+import { signupAction } from "./actions";
 
-export const clientAction = asClientAction(async (values) => {
-  const res = await fetch("/api/signup", {
-    method: "POST",
-    body: JSON.stringify(values),
-  });
+const { Form, useFormState } = createForm({
+  schema: signupSchema,
+  adapter: shadcnAdapter,
+  action: signupAction,
+  defaultValues: { username: "", email: "" },
+});
 
-  if (!res.ok) {
-    return {
-      status: "error",
-      fieldErrors: { username: "Already taken." },
-    };
-  }
+export function SignupForm() {
+  const { isSubmitting } = useFormState();
 
-  return { status: "success", data: await res.json() };
-});`}</CodeBlock>
-      </section>
-
-      <section className="mt-10">
+  return (
+    <Form className="space-y-4">
+      <button type="submit" disabled={isSubmitting}>
+        {isSubmitting ? "Signing up..." : "Sign up"}
+      </button>
+    </Form>
+  );
+}`}</CopyCodeBlock>
         <p className="text-sm text-muted-foreground">
-          See the{" "}
-          <Link href="/docs/widgets" className="text-violet-400 hover:underline">
-            widget reference
-          </Link>{" "}
-          for how Zod types map to form fields, or try the{" "}
-          <Link href="/examples" className="text-violet-400 hover:underline">
-            live examples
-          </Link>
+          When an adapter is provided, fields are auto-rendered from your schema.
+          You can still add custom children inside{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 text-sm text-foreground">
+            Form
+          </code>
           .
         </p>
-      </section>
+      </DocsSection>
+
+      <DocsSection id="try-it" title="Try it live" className="mt-10">
+        <p className="text-sm text-muted-foreground">
+          See a working signup form with Server Actions and field-level errors.
+        </p>
+        <Link
+          href="/examples/signup"
+          className="inline-flex text-sm font-medium text-violet-400 hover:underline"
+        >
+          Open the signup example →
+        </Link>
+      </DocsSection>
+
+      <DocsNextLink
+        href="/docs/actions"
+        title="Actions"
+        description="Server Actions, client actions, and the ActionResult contract."
+      />
     </article>
   );
 }

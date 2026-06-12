@@ -3,14 +3,17 @@
 import { useState } from "react";
 import { Check, Copy } from "lucide-react";
 import { motion } from "framer-motion";
-import { siteConfig } from "@/lib/site-config";
+import { installCommands } from "@/lib/package-manager";
+import { usePackageManager } from "@/lib/use-package-manager";
 import { cn } from "@/lib/utils";
 
 export function InstallPill() {
   const [copied, setCopied] = useState(false);
+  const { packageManager } = usePackageManager();
+  const installCommand = installCommands[packageManager];
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(siteConfig.installCommand);
+    await navigator.clipboard.writeText(installCommand);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -28,7 +31,7 @@ export function InstallPill() {
       )}
     >
       <span className="text-violet-400">$</span>
-      <span>{siteConfig.installCommand}</span>
+      <span>{installCommand}</span>
       {copied ? (
         <Check className="size-4 text-violet-400" />
       ) : (

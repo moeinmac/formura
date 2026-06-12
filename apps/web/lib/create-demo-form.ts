@@ -1,6 +1,6 @@
 import { asClientAction, createForm } from "@formura/core";
 import shadcnAdapter from "@formura/adapters/shadcn";
-import { signupAction } from "@/app/actions";
+import { signupAction } from "@/lib/actions";
 import { demoSchema, signupSchema } from "./schemas";
 
 export const demoClientAction = asClientAction<typeof demoSchema>(

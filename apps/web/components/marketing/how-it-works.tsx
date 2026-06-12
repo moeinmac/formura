@@ -28,10 +28,12 @@ const steps = [
   {
     icon: FormInput,
     title: "Render fields",
-    code: `<Form className="space-y-4">
+    code: `<Form className="space-y-4">  
   {/* Fields auto-render from schema */}
-  <button type="submit">Submit</button>
-</Form>`,
+  <button type="submit">Submit</button>          
+</Form>
+
+`,
   },
 ];
 

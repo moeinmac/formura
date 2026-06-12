@@ -6,7 +6,6 @@ export const siteConfig = {
   description:
     "Schema goes in, complete forms come out. Zero boilerplate, infinite DX, and Server Actions built right in.",
   githubUrl: "https://github.com/moeinmac/formura",
-  installCommand: "pnpm add @formura/core @formura/adapters",
 } as const;
 
 export type NavItem = {
@@ -21,7 +20,31 @@ export const navItems: NavItem[] = [
   { label: "GitHub", href: siteConfig.githubUrl, external: true },
 ];
 
-export const docsNavItems = [
-  { label: "Getting Started", href: "/docs" },
-  { label: "Widgets", href: "/docs/widgets" },
-] as const;
+export type DocsNavItem = {
+  label: string;
+  href: string;
+};
+
+export type DocsNavGroup = {
+  title: string;
+  items: DocsNavItem[];
+};
+
+export const docsNavGroups: DocsNavGroup[] = [
+  {
+    title: "Guide",
+    items: [
+      { label: "Getting Started", href: "/docs" },
+      { label: "Actions", href: "/docs/actions" },
+      { label: "createForm API", href: "/docs/create-form" },
+      { label: "Fields", href: "/docs/fields" },
+    ],
+  },
+  {
+    title: "Reference",
+    items: [
+      { label: "Widgets", href: "/docs/widgets" },
+      { label: "Adapters", href: "/docs/adapters" },
+    ],
+  },
+];
