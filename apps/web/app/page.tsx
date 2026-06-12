@@ -5,15 +5,15 @@ import { FeaturesBento } from "@/components/marketing/features-bento";
 import { WidgetStrip } from "@/components/marketing/widget-strip";
 import { CtaSection } from "@/components/marketing/cta-section";
 
-export default function HomePage() {
-  return (
-    <>
-      <Hero />
-      <HowItWorks />
-      <LiveDemo />
-      <FeaturesBento />
-      <WidgetStrip />
-      <CtaSection />
-    </>
-  );
-}
+const HomePage = () => (
+  <>
+    <Hero />
+    <HowItWorks />
+    <LiveDemo />
+    <FeaturesBento />
+    <WidgetStrip />
+    <CtaSection />
+  </>
+);
+
+export default HomePage;

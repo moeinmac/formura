@@ -6,7 +6,7 @@ import {
   useSignupFormState,
 } from "@/lib/create-demo-form";
 
-function SignupFormInner() {
+const SignupFormInner = () => {
   const { isSubmitting, result } = useSignupFormState();
 
   return (
@@ -32,19 +32,17 @@ function SignupFormInner() {
       )}
     </>
   );
-}
+};
 
-export function SignupFormDemo() {
-  return (
-    <div>
-      <SignupForm className="space-y-4">
-        <SignupFormInner />
-      </SignupForm>
+export const SignupFormDemo = () => (
+  <div>
+    <SignupForm className="space-y-4">
+      <SignupFormInner />
+    </SignupForm>
 
-      <p className="mt-4 text-xs text-muted-foreground">
-        Try username <code className="text-foreground">admin</code> or email{" "}
-        <code className="text-foreground">taken@example.com</code> to see field errors.
-      </p>
-    </div>
-  );
-}
+    <p className="mt-4 text-xs text-muted-foreground">
+      Try username <code className="text-foreground">admin</code> or email{" "}
+      <code className="text-foreground">taken@example.com</code> to see field errors.
+    </p>
+  </div>
+);

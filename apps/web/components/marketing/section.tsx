@@ -11,7 +11,7 @@ type SectionProps = {
   dark?: boolean;
 };
 
-export function Section({ children, className, id, dark }: SectionProps) {
+export const Section = ({ children, className, id, dark }: SectionProps) => {
   const reducedMotion = useReducedMotion();
 
   return (
@@ -30,9 +30,9 @@ export function Section({ children, className, id, dark }: SectionProps) {
       <div className="mx-auto max-w-6xl">{children}</div>
     </motion.section>
   );
-}
+};
 
-export function SectionHeader({
+export const SectionHeader = ({
   eyebrow,
   title,
   description,
@@ -42,18 +42,16 @@ export function SectionHeader({
   title: string;
   description?: string;
   className?: string;
-}) {
-  return (
-    <div className={cn("mb-12 max-w-2xl", className)}>
-      {eyebrow && (
-        <p className="mb-3 text-sm font-medium uppercase tracking-wider text-violet-400">
-          {eyebrow}
-        </p>
-      )}
-      <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>
-      {description && (
-        <p className="mt-3 text-lg text-muted-foreground">{description}</p>
-      )}
-    </div>
-  );
-}
+}) => (
+  <div className={cn("mb-12 max-w-2xl", className)}>
+    {eyebrow && (
+      <p className="mb-3 text-sm font-medium uppercase tracking-wider text-violet-400">
+        {eyebrow}
+      </p>
+    )}
+    <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>
+    {description && (
+      <p className="mt-3 text-lg text-muted-foreground">{description}</p>
+    )}
+  </div>
+);

@@ -37,7 +37,7 @@ const steps = [
   },
 ];
 
-export function HowItWorks() {
+export const HowItWorks = () => {
   const reducedMotion = useReducedMotion();
 
   return (
@@ -78,4 +78,4 @@ export function HowItWorks() {
       </div>
     </Section>
   );
-}
+};

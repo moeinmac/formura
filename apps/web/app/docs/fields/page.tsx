@@ -3,8 +3,7 @@ import { DocsSection } from "@/components/docs/docs-section";
 import { DocsNextLink } from "@/components/docs/docs-next-link";
 import { CopyCodeBlock } from "@/components/docs/copy-code-block";
 
-export default function FieldsPage() {
-  return (
+const FieldsPage = () => (
     <article>
       <h1 className="text-3xl font-bold tracking-tight">Fields</h1>
       <p className="mt-3 text-lg text-muted-foreground">
@@ -120,7 +119,7 @@ export default function FieldsPage() {
           <code className="text-foreground">fieldErrors</code> returned by your
           action.
         </p>
-        <CopyCodeBlock>{`function MyError({ errorMessage }: { errorMessage: string }) {
+        <CopyCodeBlock>{`const MyError = ({ errorMessage }: { errorMessage: string }) => {
   return <p className="text-sm text-red-500">{errorMessage}</p>;
 }
 
@@ -147,4 +146,5 @@ createForm({
       />
     </article>
   );
-}
+
+export default FieldsPage;

@@ -21,18 +21,18 @@ export const metadata: Metadata = {
   description: siteConfig.description,
 };
 
-export default function RootLayout({
+const RootLayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en" className={cn("dark font-sans", geistSans.variable, geistMono.variable)}>
-      <body className="min-h-screen antialiased">
-        <SiteHeader />
-        <main>{children}</main>
-        <SiteFooter />
-      </body>
-    </html>
-  );
-}
+}>) => (
+  <html lang="en" className={cn("dark font-sans", geistSans.variable, geistMono.variable)}>
+    <body className="min-h-screen antialiased">
+      <SiteHeader />
+      <main>{children}</main>
+      <SiteFooter />
+    </body>
+  </html>
+);
+
+export default RootLayout;

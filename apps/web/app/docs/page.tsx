@@ -6,12 +6,11 @@ import { DocsNextLink } from "@/components/docs/docs-next-link";
 import { CopyCodeBlock } from "@/components/docs/copy-code-block";
 import { siteConfig } from "@/lib/site-config";
 
-export default function DocsPage() {
-  return (
+const DocsPage = () => (
     <article>
       <h1 className="text-3xl font-bold tracking-tight">Getting Started</h1>
       <p className="mt-3 text-lg text-muted-foreground">
-        {siteConfig.description}
+        {siteConfig.docsDescription}
       </p>
 
       <DocsCallout className="mt-6">
@@ -85,7 +84,7 @@ const { Form, useFormState } = createForm({
   defaultValues: { username: "", email: "" },
 });
 
-export function SignupForm() {
+export const SignupForm = () => {
   const { isSubmitting } = useFormState();
 
   return (
@@ -125,4 +124,5 @@ export function SignupForm() {
       />
     </article>
   );
-}
+
+export default DocsPage;

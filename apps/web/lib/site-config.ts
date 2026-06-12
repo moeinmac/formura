@@ -5,6 +5,8 @@ export const siteConfig = {
     "One schema to rule them all, one adapter to render them.",
   description:
     "Schema goes in, complete forms come out. Zero boilerplate, infinite DX, and Server Actions built right in.",
+  docsDescription:
+    "Formura is a schema-first form library for React and Next.js. Give createForm a Zod object schema, wire a server or client action, and get auto-rendered fields, built-in validation, field-level errors, and typed submission state — no register calls, no field arrays, no adapter boilerplate.",
   githubUrl: "https://github.com/moeinmac/formura",
 } as const;
 

@@ -14,8 +14,7 @@ const bundledPrimitives = [
   "Label + field wrapper",
 ];
 
-export default function AdaptersPage() {
-  return (
+const AdaptersPage = () => (
     <article>
       <h1 className="text-3xl font-bold tracking-tight">Adapters</h1>
       <p className="mt-3 text-lg text-muted-foreground">
@@ -122,4 +121,5 @@ const { Form } = createForm({ schema, adapter, action });`}</CopyCodeBlock>
       />
     </article>
   );
-}
+
+export default AdaptersPage;

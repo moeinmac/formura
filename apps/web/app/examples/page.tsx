@@ -28,8 +28,7 @@ const examples = [
   },
 ];
 
-export default function ExamplesPage() {
-  return (
+const ExamplesPage = () => (
     <div className="mx-auto max-w-6xl px-6 py-12 sm:px-8 lg:px-12">
       <h1 className="text-3xl font-bold tracking-tight">Examples</h1>
       <p className="mt-3 max-w-2xl text-lg text-muted-foreground">
@@ -78,4 +77,5 @@ export default function ExamplesPage() {
       </div>
     </div>
   );
-}
+
+export default ExamplesPage;

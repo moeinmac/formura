@@ -2,8 +2,7 @@ import Link from "next/link";
 import { SignupFormDemo } from "@/components/demos/signup-form";
 import { CodeBlock } from "@/components/marketing/code-block";
 
-export default function SignupExamplePage() {
-  return (
+const SignupExamplePage = () => (
     <div className="mx-auto max-w-6xl px-6 py-12 sm:px-8 lg:px-12">
       <Link
         href="/examples"
@@ -57,4 +56,5 @@ export const signupAction = asServerAction(
       </div>
     </div>
   );
-}
+
+export default SignupExamplePage;

@@ -7,7 +7,7 @@ import { installCommands } from "@/lib/package-manager";
 import { usePackageManager } from "@/lib/use-package-manager";
 import { cn } from "@/lib/utils";
 
-export function InstallPill() {
+export const InstallPill = () => {
   const [copied, setCopied] = useState(false);
   const { packageManager } = usePackageManager();
   const installCommand = installCommands[packageManager];
@@ -39,4 +39,4 @@ export function InstallPill() {
       )}
     </motion.button>
   );
-}
+};

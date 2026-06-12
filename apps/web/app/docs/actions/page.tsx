@@ -3,8 +3,7 @@ import { DocsSection } from "@/components/docs/docs-section";
 import { DocsNextLink } from "@/components/docs/docs-next-link";
 import { CopyCodeBlock } from "@/components/docs/copy-code-block";
 
-export default function ActionsPage() {
-  return (
+const ActionsPage = () => (
     <article>
       <h1 className="text-3xl font-bold tracking-tight">Actions</h1>
       <p className="mt-3 text-lg text-muted-foreground">
@@ -163,7 +162,7 @@ export const clientAction = asClientAction<typeof schema>(
         </p>
         <CopyCodeBlock title="signup-form.tsx">{`const { Form, useFormState } = createForm({ ... });
 
-function SubmitButton() {
+const SubmitButton = () => {
   const { isSubmitting, result, submitCount } = useFormState();
 
   return (
@@ -223,4 +222,5 @@ function SubmitButton() {
       />
     </article>
   );
-}
+
+export default ActionsPage;

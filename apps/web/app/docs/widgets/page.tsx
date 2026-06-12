@@ -56,8 +56,7 @@ const widgets = [
   },
 ];
 
-export default function WidgetsPage() {
-  return (
+const WidgetsPage = () => (
     <article>
       <h1 className="text-3xl font-bold tracking-tight">Widget Reference</h1>
       <p className="mt-3 text-lg text-muted-foreground">
@@ -167,4 +166,5 @@ const adapter = createShadcnAdapter();`}</CopyCodeBlock>
       />
     </article>
   );
-}
+
+export default WidgetsPage;

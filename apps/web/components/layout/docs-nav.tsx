@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { docsNavGroups } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
-export function DocsNav() {
+export const DocsNav = () => {
   const pathname = usePathname();
 
   return (
@@ -37,4 +37,4 @@ export function DocsNav() {
       ))}
     </nav>
   );
-}
+};

@@ -10,15 +10,15 @@ type TabsContextValue = {
 
 const TabsContext = React.createContext<TabsContextValue | null>(null);
 
-function useTabsContext() {
+const useTabsContext = () => {
   const context = React.useContext(TabsContext);
   if (!context) {
     throw new Error("Tabs components must be used within <Tabs>");
   }
   return context;
-}
+};
 
-function Tabs({
+const Tabs = ({
   value,
   onValueChange,
   className,
@@ -28,38 +28,34 @@ function Tabs({
   onValueChange: (value: string) => void;
   className?: string;
   children: React.ReactNode;
-}) {
-  return (
-    <TabsContext.Provider value={{ value, onValueChange }}>
-      <div data-slot="tabs" className={cn(className)}>
-        {children}
-      </div>
-    </TabsContext.Provider>
-  );
-}
+}) => (
+  <TabsContext.Provider value={{ value, onValueChange }}>
+    <div data-slot="tabs" className={cn(className)}>
+      {children}
+    </div>
+  </TabsContext.Provider>
+);
 
-function TabsList({
+const TabsList = ({
   className,
   children,
 }: {
   className?: string;
   children: React.ReactNode;
-}) {
-  return (
-    <div
-      data-slot="tabs-list"
-      role="tablist"
-      className={cn(
-        "inline-flex items-center gap-1 rounded-lg border border-border/60 bg-muted/30 p-1",
-        className,
-      )}
-    >
-      {children}
-    </div>
-  );
-}
+}) => (
+  <div
+    data-slot="tabs-list"
+    role="tablist"
+    className={cn(
+      "inline-flex items-center gap-1 rounded-lg border border-border/60 bg-muted/30 p-1",
+      className,
+    )}
+  >
+    {children}
+  </div>
+);
 
-function TabsTrigger({
+const TabsTrigger = ({
   value,
   className,
   children,
@@ -67,7 +63,7 @@ function TabsTrigger({
   value: string;
   className?: string;
   children: React.ReactNode;
-}) {
+}) => {
   const { value: selected, onValueChange } = useTabsContext();
   const isActive = selected === value;
 
@@ -88,9 +84,9 @@ function TabsTrigger({
       {children}
     </button>
   );
-}
+};
 
-function TabsContent({
+const TabsContent = ({
   value,
   className,
   children,
@@ -98,7 +94,7 @@ function TabsContent({
   value: string;
   className?: string;
   children: React.ReactNode;
-}) {
+}) => {
   const { value: selected } = useTabsContext();
   if (selected !== value) return null;
 
@@ -111,6 +107,6 @@ function TabsContent({
       {children}
     </div>
   );
-}
+};
 
 export { Tabs, TabsList, TabsTrigger, TabsContent };

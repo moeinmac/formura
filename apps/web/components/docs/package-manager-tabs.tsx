@@ -13,7 +13,7 @@ type PackageManagerTabsProps = {
   className?: string;
 };
 
-export function PackageManagerTabs({ className }: PackageManagerTabsProps) {
+export const PackageManagerTabs = ({ className }: PackageManagerTabsProps) => {
   const { packageManager, setPackageManager } = usePackageManager();
 
   return (
@@ -37,4 +37,4 @@ export function PackageManagerTabs({ className }: PackageManagerTabsProps) {
       </Tabs>
     </div>
   );
-}
+};

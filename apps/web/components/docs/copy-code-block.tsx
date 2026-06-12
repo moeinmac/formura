@@ -10,11 +10,11 @@ type CopyCodeBlockProps = {
   title?: string;
 };
 
-export function CopyCodeBlock({
+export const CopyCodeBlock = ({
   children,
   className,
   title,
-}: CopyCodeBlockProps) {
+}: CopyCodeBlockProps) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -54,4 +54,4 @@ export function CopyCodeBlock({
       </div>
     </div>
   );
-}
+};

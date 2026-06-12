@@ -16,7 +16,7 @@ const schemaCode = `const demoSchema = z.object({
   terms: z.boolean(),
 });`;
 
-function DemoFormInner() {
+const DemoFormInner = () => {
   const { isSubmitting, result } = useDemoFormState();
 
   return (
@@ -42,45 +42,41 @@ function DemoFormInner() {
       )}
     </>
   );
-}
+};
 
-function DemoFormContent() {
-  return (
-    <DemoForm className="space-y-4">
-      <DemoFormInner />
-    </DemoForm>
-  );
-}
+const DemoFormContent = () => (
+  <DemoForm className="space-y-4">
+    <DemoFormInner />
+  </DemoForm>
+);
 
-export function LiveDemo() {
-  return (
-    <Section dark id="demo">
-      <SectionHeader
-        eyebrow="Live demo"
-        title="Watch your schema become a form"
-        description="This form is rendered entirely from the Zod schema on the left. Try submitting — or type 'taken' as username to see field errors."
-        className="[&_p]:text-neutral-400"
-      />
+export const LiveDemo = () => (
+  <Section dark id="demo">
+    <SectionHeader
+      eyebrow="Live demo"
+      title="Watch your schema become a form"
+      description="This form is rendered entirely from the Zod schema on the left. Try submitting — or type 'taken' as username to see field errors."
+      className="[&_p]:text-neutral-400"
+    />
 
-      <div className="grid gap-8 lg:grid-cols-2">
-        <div>
-          <div className="mb-3 flex items-center gap-2">
-            <Badge variant="outline" className="border-violet-500/30 text-violet-400">
-              schema.ts
-            </Badge>
-          </div>
-          <CodeBlock className="border-white/10 bg-white/5">{schemaCode}</CodeBlock>
+    <div className="grid gap-8 lg:grid-cols-2">
+      <div>
+        <div className="mb-3 flex items-center gap-2">
+          <Badge variant="outline" className="border-violet-500/30 text-violet-400">
+            schema.ts
+          </Badge>
         </div>
-
-        <div className="rounded-xl border border-white/10 bg-white/5 p-6 sm:p-8 backdrop-blur-sm">
-          <div className="mb-4 flex items-center gap-2">
-            <Badge variant="outline" className="border-violet-500/30 text-violet-400">
-              rendered form
-            </Badge>
-          </div>
-          <DemoFormContent />
-        </div>
+        <CodeBlock className="border-white/10 bg-white/5">{schemaCode}</CodeBlock>
       </div>
-    </Section>
-  );
-}
+
+      <div className="rounded-xl border border-white/10 bg-white/5 p-6 sm:p-8 backdrop-blur-sm">
+        <div className="mb-4 flex items-center gap-2">
+          <Badge variant="outline" className="border-violet-500/30 text-violet-400">
+            rendered form
+          </Badge>
+        </div>
+        <DemoFormContent />
+      </div>
+    </div>
+  </Section>
+);

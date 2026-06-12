@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-export function useReducedMotion() {
+export const useReducedMotion = () => {
   const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
@@ -18,4 +18,4 @@ export function useReducedMotion() {
   }, []);
 
   return reducedMotion;
-}
+};

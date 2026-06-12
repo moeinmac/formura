@@ -12,30 +12,28 @@ const widgets = [
   { name: "checkbox", schema: "z.boolean()" },
 ];
 
-export function WidgetStrip() {
-  return (
-    <Section id="widgets">
-      <SectionHeader
-        eyebrow="Widgets"
-        title="Inferred from your schema"
-        description="Formura reads Zod types and metadata to pick the right widget. Override when you need to."
-      />
+export const WidgetStrip = () => (
+  <Section id="widgets">
+    <SectionHeader
+      eyebrow="Widgets"
+      title="Inferred from your schema"
+      description="Formura reads Zod types and metadata to pick the right widget. Override when you need to."
+    />
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {widgets.map((widget) => (
-          <div
-            key={widget.name}
-            className="group rounded-xl border border-border/60 bg-muted/20 p-4 transition hover:border-violet-500/30 hover:bg-violet-500/5"
-          >
-            <Badge variant="secondary" className="mb-2 font-mono text-xs">
-              {widget.name}
-            </Badge>
-            <p className="font-mono text-xs text-muted-foreground">
-              {widget.schema}
-            </p>
-          </div>
-        ))}
-      </div>
-    </Section>
-  );
-}
+    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      {widgets.map((widget) => (
+        <div
+          key={widget.name}
+          className="group rounded-xl border border-border/60 bg-muted/20 p-4 transition hover:border-violet-500/30 hover:bg-violet-500/5"
+        >
+          <Badge variant="secondary" className="mb-2 font-mono text-xs">
+            {widget.name}
+          </Badge>
+          <p className="font-mono text-xs text-muted-foreground">
+            {widget.schema}
+          </p>
+        </div>
+      ))}
+    </div>
+  </Section>
+);

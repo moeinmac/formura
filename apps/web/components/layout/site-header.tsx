@@ -8,7 +8,7 @@ import { siteConfig, navItems } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 import { MobileNav } from "./mobile-nav";
 
-export function SiteHeader() {
+export const SiteHeader = () => {
   const pathname = usePathname();
   const isHome = pathname === "/";
 
@@ -77,4 +77,4 @@ export function SiteHeader() {
       </div>
     </header>
   );
-}
+};

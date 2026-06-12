@@ -52,7 +52,7 @@ const features = [
   },
 ];
 
-export function FeaturesBento() {
+export const FeaturesBento = () => {
   const reducedMotion = useReducedMotion();
 
   return (
@@ -91,4 +91,4 @@ export function FeaturesBento() {
       </div>
     </Section>
   );
-}
+};
