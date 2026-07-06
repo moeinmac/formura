@@ -1,6 +1,6 @@
 {
   "name": "@formura/core",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Schema goes in, complete forms come out. Zero boilerplate, infinite DX, and Server Actions built right in",
   "license": "MIT",
   "repository": {
