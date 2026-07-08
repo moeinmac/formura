@@ -4,6 +4,9 @@ import type {
   FieldWidget,
 } from "@formura/core";
 import type { ZodType } from "zod";
+import { DatePickerField } from "./date-picker-field";
+import { DateTimePickerField } from "./date-time-picker-field";
+import { TimePickerField } from "./time-picker-field";
 import { Checkbox } from "../ui/checkbox";
 import { Input } from "../ui/input";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
@@ -160,6 +163,36 @@ export const renderShadcnWidget = (props: FieldProps) => {
             onCheckedChange={(checked) => onChange(Boolean(checked))}
           />
         </div>
+      );
+    case "date":
+      return (
+        <DatePickerField
+          id={name}
+          value={value}
+          disabled={disabled}
+          onBlur={onBlur}
+          onChange={onChange}
+        />
+      );
+    case "time":
+      return (
+        <TimePickerField
+          id={name}
+          value={value}
+          disabled={disabled}
+          onBlur={onBlur}
+          onChange={onChange}
+        />
+      );
+    case "dateTime":
+      return (
+        <DateTimePickerField
+          id={name}
+          value={value}
+          disabled={disabled}
+          onBlur={onBlur}
+          onChange={onChange}
+        />
       );
     default:
       return (
