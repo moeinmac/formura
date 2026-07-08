@@ -13,6 +13,10 @@ describe("inferFieldMeta", () => {
     agree: z.boolean(),
     bio: z.string().describe("widget:textarea"),
     nickname: z.string().optional(),
+    birthDate: z.coerce.date(),
+    appointmentAt: z.coerce.date().describe("widget:datetime"),
+    reminderTime: z.string().describe("widget:time"),
+    eventDate: z.date().optional(),
   });
 
   it("infers text for plain string", () => {
@@ -61,5 +65,23 @@ describe("inferFieldMeta", () => {
 
   it("unwraps optional wrappers", () => {
     expect(inferFieldMeta(schema, "nickname")).toEqual({ widget: "text" });
+  });
+
+  it("infers date for z.coerce.date()", () => {
+    expect(inferFieldMeta(schema, "birthDate")).toEqual({ widget: "date" });
+  });
+
+  it("infers dateTime from describe on date schema", () => {
+    expect(inferFieldMeta(schema, "appointmentAt")).toEqual({
+      widget: "dateTime",
+    });
+  });
+
+  it("infers time from describe on string schema", () => {
+    expect(inferFieldMeta(schema, "reminderTime")).toEqual({ widget: "time" });
+  });
+
+  it("unwraps optional date wrappers", () => {
+    expect(inferFieldMeta(schema, "eventDate")).toEqual({ widget: "date" });
   });
 });

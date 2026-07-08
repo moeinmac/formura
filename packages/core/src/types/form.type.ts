@@ -25,7 +25,10 @@ export type FieldWidget =
   | "select"
   | "multiSelect"
   | "textarea"
-  | "checkbox";
+  | "checkbox"
+  | "date"
+  | "time"
+  | "datetime";
 
 export type FieldOption = { value: string; label: string };
 

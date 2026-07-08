@@ -19,7 +19,7 @@ export const ShadcnFieldWrapper = ({
       {children}
       {error && ErrorElement && <ErrorElement errorMessage={error} />}
       {error && !ErrorElement && (
-        <p className="text-sm text-red-600">{error}</p>
+        <p className="text-sm text-destructive">{error}</p>
       )}
     </div>
   );

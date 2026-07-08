@@ -51,6 +51,9 @@ const parseWidgetFromDescription = (
     "multiSelect",
     "textarea",
     "checkbox",
+    "date",
+    "time",
+    "datetime",
   ];
   return allowed.includes(widget) ? widget : undefined;
 };
@@ -77,6 +80,23 @@ const inferStringWidget = (schema: ZodSchemaInternals): FieldWidget => {
   return "text";
 };
 
+const isDateSchema = (schema: ZodSchemaInternals) => {
+  const typeName = schema.type ?? schema.def?.type;
+  if (typeName === "date") return true;
+  if (typeName === "coerce") {
+    const inner = schema.def?.innerType as ZodSchemaInternals | undefined;
+    return inner?.type === "date" || inner?.def?.type === "date";
+  }
+  return false;
+};
+
+const inferDateWidget = (schema: ZodSchemaInternals): FieldWidget => {
+  const fromDescription = parseWidgetFromDescription(schema.description);
+  if (fromDescription === "datetime") return "datetime";
+  if (fromDescription === "date") return "date";
+  return "date";
+};
+
 const inferFromSchema = (schema: ZodType): FieldMeta => {
   const unwrapped = unwrapFieldSchema(schema) as ZodSchemaInternals;
   const typeName = unwrapped.type ?? unwrapped.def?.type;
@@ -94,6 +114,8 @@ const inferFromSchema = (schema: ZodType): FieldMeta => {
       return { widget: "multiSelect", options: enumOptions(element) };
     }
   }
+
+  if (isDateSchema(unwrapped)) return { widget: inferDateWidget(unwrapped) };
 
   if (typeName === "string") return { widget: inferStringWidget(unwrapped) };
 
