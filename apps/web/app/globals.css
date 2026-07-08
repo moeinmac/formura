@@ -3,7 +3,7 @@
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
-@source "../../../packages/adapters/src/**/*.{ts,tsx}";
+@import "@formura/adapters/tailwind.css";
 
 html,
 body {

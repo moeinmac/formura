@@ -8,7 +8,7 @@
     "url": "https://github.com/moeinmac/formura.git",
     "directory": "packages/adapters"
   },
-  "files": ["dist"],
+  "files": ["dist", "tailwind.css"],
   "publishConfig": {
     "access": "public"
   },
@@ -20,7 +20,8 @@
       "types": "./dist/shadcn.d.ts",
       "import": "./dist/shadcn.mjs",
       "require": "./dist/shadcn.js"
-    }
+    },
+    "./tailwind.css": "./tailwind.css"
   },
   "scripts": {
     "build": "tsup --format cjs,esm --dts",
