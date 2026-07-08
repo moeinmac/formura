@@ -1,6 +1,6 @@
 {
   "name": "@formura/adapters",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "UI adapters that render Formura fields from Zod schema metadata",
   "license": "MIT",
   "repository": {
