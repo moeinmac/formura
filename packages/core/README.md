@@ -36,7 +36,7 @@ import { z } from "zod";
 
 export const signupSchema = z.object({
   username: z.string().min(2, "At least 2 characters"),
-  email: z.string().email("Invalid email"),
+  email: z.email("Invalid email"),
 });
 ```
 
@@ -99,25 +99,25 @@ The factory that turns a Zod schema into a typed form.
 
 ### Returns
 
-| Export         | Description                                                        |
-| -------------- | ------------------------------------------------------------------ |
-| `Form`         | Wraps fields in a `<form>`, handles submit and validation          |
-| `Field`        | Renders a single field (auto or manual)                            |
-| `useFormState` | Hook for submission state inside the form tree                     |
+| Export         | Description                                               |
+| -------------- | --------------------------------------------------------- |
+| `Form`         | Wraps fields in a `<form>`, handles submit and validation |
+| `Field`        | Renders a single field (auto or manual)                   |
+| `useFormState` | Hook for submission state inside the form tree            |
 
 ### Options
 
-| Option              | Required | Description                                                                 |
-| ------------------- | -------- | --------------------------------------------------------------------------- |
-| `schema`            | Yes      | Zod object schema — single source of truth for fields and validation        |
-| `action`            | Yes      | Tagged server or client action from `asServerAction` / `asClientAction`   |
-| `adapter`           | No       | UI adapter that renders fields. Without it, every `Field` needs a render prop |
-| `defaultValues`     | No       | Initial field values. Keys must match schema fields                         |
-| `fields`            | No       | Per-field overrides (label, render, disabled, ErrorElement) without JSX     |
-| `GlobalErrorElement`| No       | Default error display component for all fields                              |
-| `onSuccess`         | No       | Called when the action returns `status: "success"`                          |
-| `onError`           | No       | Called when the action returns `status: "error"`                            |
-| `onSettled`         | No       | Called after every action completes, success or error                       |
+| Option               | Required | Description                                                                   |
+| -------------------- | -------- | ----------------------------------------------------------------------------- |
+| `schema`             | Yes      | Zod object schema — single source of truth for fields and validation          |
+| `action`             | Yes      | Tagged server or client action from `asServerAction` / `asClientAction`       |
+| `adapter`            | No       | UI adapter that renders fields. Without it, every `Field` needs a render prop |
+| `defaultValues`      | No       | Initial field values. Keys must match schema fields                           |
+| `fields`             | No       | Per-field overrides (label, render, disabled, ErrorElement) without JSX       |
+| `GlobalErrorElement` | No       | Default error display component for all fields                                |
+| `onSuccess`          | No       | Called when the action returns `status: "success"`                            |
+| `onError`            | No       | Called when the action returns `status: "error"`                              |
+| `onSettled`          | No       | Called after every action completes, success or error                         |
 
 ## Actions
 
@@ -161,7 +161,7 @@ import { z } from "zod";
 
 const schema = z.object({
   username: z.string().min(2),
-  email: z.string().email(),
+  email: z.email(),
 });
 
 export const signupClientAction = asClientAction<typeof schema>(
@@ -194,23 +194,23 @@ export const signupClientAction = asClientAction<typeof schema>(
 
 ## Utility exports
 
-| Export             | Description                                      |
-| ------------------ | ------------------------------------------------ |
-| `inferFieldMeta`   | Widget type and options for a schema field       |
-| `getFieldSchema`   | Zod schema for a single field                    |
-| `unwrapFieldSchema`| Unwrap optional/nullable wrappers on a field     |
+| Export               | Description                                  |
+| -------------------- | -------------------------------------------- |
+| `inferFieldMeta`     | Widget type and options for a schema field   |
+| `getFieldSchema`     | Zod schema for a single field                |
+| `unwrapFieldSchema`  | Unwrap optional/nullable wrappers on a field |
 | `getSchemaFieldKeys` | List top-level keys from a Zod object schema |
-| `formatFieldLabel` | Turn `firstName` into `First Name`             |
-| `flattenErrors`    | Zod error to field error map                     |
-| `asClientAction`   | Tag a client-side submit handler                 |
-| `toFormData`       | Values object to `FormData`                      |
+| `formatFieldLabel`   | Turn `firstName` into `First Name`           |
+| `flattenErrors`      | Zod error to field error map                 |
+| `asClientAction`     | Tag a client-side submit handler             |
+| `toFormData`         | Values object to `FormData`                  |
 
 ## Subpath exports
 
-| Import                    | Use for                          |
-| ------------------------- | -------------------------------- |
-| `@formura/core`           | `createForm`, types, client utils |
-| `@formura/core/server`    | `asServerAction` in server files |
+| Import                 | Use for                           |
+| ---------------------- | --------------------------------- |
+| `@formura/core`        | `createForm`, types, client utils |
+| `@formura/core/server` | `asServerAction` in server files  |
 
 ## Learn more
 

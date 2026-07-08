@@ -2,16 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  DemoForm,
-  useDemoFormState,
-} from "@/lib/create-demo-form";
+import { DemoForm, useDemoFormState } from "@/lib/create-demo-form";
 import { Section, SectionHeader } from "./section";
 import { CodeBlock } from "./code-block";
 
 const schemaCode = `const demoSchema = z.object({
   username: z.string().min(2),
-  email: z.string().email(),
+  email: z.email(),
   role: z.enum(["developer", "designer", "manager"]),
   terms: z.boolean(),
 });`;
@@ -62,16 +59,24 @@ export const LiveDemo = () => (
     <div className="grid gap-8 lg:grid-cols-2">
       <div>
         <div className="mb-3 flex items-center gap-2">
-          <Badge variant="outline" className="border-violet-500/30 text-violet-400">
+          <Badge
+            variant="outline"
+            className="border-violet-500/30 text-violet-400"
+          >
             schema.ts
           </Badge>
         </div>
-        <CodeBlock className="border-white/10 bg-white/5">{schemaCode}</CodeBlock>
+        <CodeBlock className="border-white/10 bg-white/5">
+          {schemaCode}
+        </CodeBlock>
       </div>
 
       <div className="rounded-xl border border-white/10 bg-white/5 p-6 sm:p-8 backdrop-blur-sm">
         <div className="mb-4 flex items-center gap-2">
-          <Badge variant="outline" className="border-violet-500/30 text-violet-400">
+          <Badge
+            variant="outline"
+            className="border-violet-500/30 text-violet-400"
+          >
             rendered form
           </Badge>
         </div>

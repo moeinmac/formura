@@ -8,10 +8,10 @@ Formura is a schema-first form library for React and Next.js. Define a Zod objec
 
 ## Packages
 
-| Package | Description |
-| ------- | ----------- |
-| [`@formura/core`](./packages/core) | `createForm`, action helpers, validation, and form state |
-| [`@formura/adapters`](./packages/adapters) | UI adapters that render fields from Zod schema metadata |
+| Package                                    | Description                                              |
+| ------------------------------------------ | -------------------------------------------------------- |
+| [`@formura/core`](./packages/core)         | `createForm`, action helpers, validation, and form state |
+| [`@formura/adapters`](./packages/adapters) | UI adapters that render fields from Zod schema metadata  |
 
 ## Install
 
@@ -37,7 +37,7 @@ import shadcnAdapter from "@formura/adapters/shadcn";
 
 const schema = z.object({
   username: z.string().min(2),
-  email: z.string().email(),
+  email: z.email(),
 });
 
 const action = asClientAction<typeof schema>(async (values) => ({
