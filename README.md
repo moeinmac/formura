@@ -8,10 +8,10 @@ Formura is a schema-first form library for React and Next.js. Define a Zod objec
 
 ## Packages
 
-| Package                                    | Description                                              |
-| ------------------------------------------ | -------------------------------------------------------- |
-| [`@formura/core`](./packages/core)         | `createForm`, action helpers, validation, and form state |
-| [`@formura/adapters`](./packages/adapters) | UI adapters that render fields from Zod schema metadata  |
+| Package                                    | Version | Description                                              |
+| ------------------------------------------ | ------- | -------------------------------------------------------- |
+| [`@formura/core`](./packages/core)         | 0.0.4   | `createForm`, action helpers, validation, and form state |
+| [`@formura/adapters`](./packages/adapters) | 0.0.4   | UI adapters that render fields from Zod schema metadata  |
 
 ## Install
 
@@ -144,6 +144,15 @@ Include adapter sources in your Tailwind content paths:
 ```css
 @source "../../../node_modules/@formura/adapters/dist/**/*.{js,mjs}";
 ```
+
+## Changelog
+
+### 0.0.4
+
+- Removed `next` peer dependency from `@formura/core`
+- `zod` is now a peer dependency (`^4.0.0`) on both packages
+
+Full notes: [`@formura/core`](./packages/core/CHANGELOG.md) · [`@formura/adapters`](./packages/adapters/CHANGELOG.md)
 
 ## Contributing
 
