@@ -1,14 +1,13 @@
 import React, {
   createContext,
   useContext,
-  useRef,
   useSyncExternalStore,
 } from "react";
 import type { ZodType } from "zod";
 import { useFormAction } from "./hooks/useFormAction";
+import { createActionStore } from "./store/action.store";
 import { createFormStore } from "./store/form.store";
 import {
-  ActionState,
   AdapterFieldPropsForField,
   CreateFormOptions,
   CreateFormOptionsWithAdapter,
@@ -149,7 +148,8 @@ export const createFormFactory = <
   type SchemaKeys = FormKeys<TSchema>;
 
   const FormStoreContext = createContext<FormStore<TSchema> | null>(null);
-  const ActionStateContext = createContext<ActionState<TData> | null>(null);
+  const formStore = createFormStore<TSchema>(options.defaultValues ?? {});
+  const actionStore = createActionStore<TData>();
   const adapter: FormAdapter | undefined = options.adapter;
 
   const Form = ({
@@ -159,33 +159,33 @@ export const createFormFactory = <
     children?: React.ReactNode;
     className?: string;
   }) => {
-    const storeRef = useRef(
-      createFormStore<TSchema>(options.defaultValues ?? {}),
+    const { executeAction } = useFormAction(
+      options.action,
+      {
+        onSuccess: options.onSuccess,
+        onError: options.onError,
+        onSettled: options.onSettled,
+      },
+      actionStore,
     );
-
-    const { actionState, executeAction } = useFormAction(options.action, {
-      onSuccess: options.onSuccess,
-      onError: options.onError,
-      onSettled: options.onSettled,
-    });
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      const currentValues = storeRef.current.getValues();
+      const currentValues = formStore.getValues();
       const result = options.schema.safeParse(currentValues);
 
       if (!result.success) {
         const formattedErrors = flattenErrors(result.error);
-        storeRef.current.setErrors(formattedErrors);
+        formStore.setErrors(formattedErrors);
         return;
       }
 
-      storeRef.current.setErrors({});
+      formStore.setErrors({});
 
       const response = await executeAction(currentValues);
 
       if (response.status === "error" && response.fieldErrors)
-        storeRef.current.setErrors(response.fieldErrors);
+        formStore.setErrors(response.fieldErrors);
     };
 
     const { fieldOverrides, otherChildren } = collectFormChildren(
@@ -225,13 +225,11 @@ export const createFormFactory = <
     }
 
     return (
-      <FormStoreContext.Provider value={storeRef.current}>
-        <ActionStateContext.Provider value={actionState}>
-          <form onSubmit={handleSubmit} className={className}>
-            {autoFields}
-            {otherChildren}
-          </form>
-        </ActionStateContext.Provider>
+      <FormStoreContext.Provider value={formStore}>
+        <form onSubmit={handleSubmit} className={className}>
+          {autoFields}
+          {otherChildren}
+        </form>
       </FormStoreContext.Provider>
     );
   };
@@ -289,14 +287,12 @@ export const createFormFactory = <
     );
   };
 
-  const useFormState = () => {
-    const state = useContext(ActionStateContext);
-    if (!state)
-      throw new Error(
-        "useFormState must be invoked within a Form wrapper context.",
-      );
-    return state;
-  };
+  const useFormState = () =>
+    useSyncExternalStore(
+      actionStore.subscribe,
+      actionStore.getSnapshot,
+      actionStore.getSnapshot,
+    );
 
   return { Form, Field, useFormState } as FormReturn<
     TSchema,

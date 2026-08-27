@@ -10,7 +10,7 @@ Formura is a schema-first form library for React and Next.js. Define a Zod objec
 
 | Package                                    | Version | Description                                              |
 | ------------------------------------------ | ------- | -------------------------------------------------------- |
-| [`@formura/core`](./packages/core)         | 0.0.4   | `createForm`, action helpers, validation, and form state |
+| [`@formura/core`](./packages/core)         | 0.0.5   | `createForm`, action helpers, validation, and form state |
 | [`@formura/adapters`](./packages/adapters) | 0.0.4   | UI adapters that render fields from Zod schema metadata  |
 
 ## Install
@@ -45,18 +45,24 @@ const action = asClientAction<typeof schema>(async (values) => ({
   data: values,
 }));
 
-const { Form } = createForm({
+const { Form, useFormState } = createForm({
   schema,
   adapter: shadcnAdapter,
   action,
   defaultValues: { username: "", email: "" },
 });
 
-export const ProfileForm = () => (
-  <Form className="space-y-4">
-    <button type="submit">Save</button>
-  </Form>
-);
+export const ProfileForm = () => {
+  const { isSubmitting } = useFormState();
+
+  return (
+    <Form className="space-y-4">
+      <button type="submit" disabled={isSubmitting}>
+        {isSubmitting ? "Saving..." : "Save"}
+      </button>
+    </Form>
+  );
+};
 ```
 
 With a Next.js Server Action, tag your handler with `asServerAction` from `@formura/core/server` instead. See the [getting started guide](./apps/web/app/docs/page.tsx) for the full walkthrough.
@@ -146,6 +152,11 @@ Include adapter sources in your Tailwind content paths:
 ```
 
 ## Changelog
+
+### 0.0.5 (`@formura/core`)
+
+- `useFormState` works alongside `<Form>` in the same component (no Form-context nesting required)
+- Form/action stores are owned by each `createForm(...)` factory call
 
 ### 0.0.4
 
