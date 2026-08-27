@@ -5,6 +5,13 @@ All notable changes to `@formura/core` are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.5] - 2026-08-27
+
+### Changed
+
+- `useFormState` no longer requires a `<Form>` context provider — it reads the factory-scoped action store, so you can call it in the same component that renders `<Form>`
+- Form and action stores are created once per `createForm(...)` call (module-level factory), not on each `<Form>` mount
+
 ## [0.0.4] - 2026-08-26
 
 ### Changed
