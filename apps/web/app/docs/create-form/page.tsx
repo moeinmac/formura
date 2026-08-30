@@ -122,9 +122,7 @@ const CreateFormPage = () => (
                 Hook that exposes{" "}
                 <code className="text-foreground">isSubmitting</code>,{" "}
                 <code className="text-foreground">result</code>, and{" "}
-                <code className="text-foreground">submitCount</code>. Must be
-                called inside the component tree that renders{" "}
-                <code className="text-foreground">&lt;Form&gt;</code>.
+                <code className="text-foreground">submitCount</code>.
               </td>
             </tr>
           </tbody>

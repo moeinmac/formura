@@ -286,18 +286,16 @@ export const clientAction = asClientAction<typeof schema>(
 
     <DocsSection id="use-form-state" title="useFormState" className="mt-10">
       <p className="text-sm text-muted-foreground">
-        Read submission state anywhere inside your form tree. The hook reads
-        from the same context the{" "}
-        <code className="text-foreground">&lt;Form&gt;</code> component provides
-        — it will throw if used outside a Form:
+        Read submission state with{" "}
+        <code className="text-foreground">useFormState</code>:
       </p>
       <CopyCodeBlock title="signup-form.tsx">{`const { Form, useFormState } = createForm({ ... });
 
-const SubmitButton = () => {
+const SignupForm = () => {
   const { isSubmitting, result, submitCount } = useFormState();
 
   return (
-    <>
+    <Form className="space-y-4">
       <button type="submit" disabled={isSubmitting}>
         {isSubmitting ? "Submitting..." : "Sign up"}
       </button>
@@ -315,7 +313,7 @@ const SubmitButton = () => {
       <p className="text-xs text-muted-foreground">
         Submitted {submitCount} time{submitCount !== 1 ? "s" : ""}
       </p>
-    </>
+    </Form>
   );
 };`}</CopyCodeBlock>
       <div className="overflow-hidden rounded-xl border border-border/60">

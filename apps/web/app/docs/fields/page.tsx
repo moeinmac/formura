@@ -23,10 +23,8 @@ const FieldsPage = () => (
         </code>{" "}
         is a{" "}
         <code className="text-foreground">&lt;form&gt;</code> wrapper that
-        handles validation and submission. It provides context for all{" "}
-        <code className="text-foreground">&lt;Field&gt;</code> components and
-        the <code className="text-foreground">useFormState</code> hook nested
-        inside it.
+        handles validation and submission. It provides context for{" "}
+        <code className="text-foreground">&lt;Field&gt;</code> components.
       </p>
 
       <div className="overflow-hidden rounded-xl border border-border/60 mt-4">
@@ -265,11 +263,8 @@ const SignupForm = () => {
         <code className="rounded bg-muted px-1.5 py-0.5 text-sm text-foreground">
           useFormState
         </code>{" "}
-        is a hook that exposes live submission state. It reads from the same
-        context that{" "}
-        <code className="text-foreground">&lt;Form&gt;</code> provides — it
-        must be called inside a component that is rendered within that{" "}
-        <code className="text-foreground">&lt;Form&gt;</code> tree.
+        is a hook that exposes live submission state from the same{" "}
+        <code className="text-foreground">createForm</code> factory.
       </p>
 
       <div className="overflow-hidden rounded-xl border border-border/60 mt-4">
@@ -347,15 +342,6 @@ const SignupForm = () => {
     </Form>
   );
 };`}</CopyCodeBlock>
-
-      <p className="text-sm text-muted-foreground">
-        <code className="text-foreground">useFormState</code> can be called in
-        any component rendered inside{" "}
-        <code className="text-foreground">&lt;Form&gt;</code> — it does not
-        have to be in the same component that renders the form itself. This
-        makes it easy to extract a submit button or a result banner into a
-        separate component.
-      </p>
     </DocsSection>
 
     {/* ─── Override precedence ──────────────────────────────── */}

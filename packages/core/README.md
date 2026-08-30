@@ -93,8 +93,6 @@ export const SignupForm = () => {
 
 When an adapter is provided, fields are auto-rendered from your schema. Add custom children inside `Form` whenever you need more control.
 
-Call `createForm` at **module scope** (not inside a component body). Each factory call owns one shared form/action store: `Form`, `Field`, and `useFormState` all talk to that same instance. `Field` must still render inside `<Form>`.
-
 ## `createForm`
 
 The factory that turns a Zod schema into a typed form.
@@ -105,7 +103,7 @@ The factory that turns a Zod schema into a typed form.
 | -------------- | --------------------------------------------------------- |
 | `Form`         | Wraps fields in a `<form>`, handles submit and validation |
 | `Field`        | Renders a single field (auto or manual)                   |
-| `useFormState` | Hook for submission state (`isSubmitting`, `result`, `submitCount`). Call it in the same component as `Form`, or anywhere that imports the same factory — no need to nest under `<Form>` |
+| `useFormState` | Hook for submission state (`isSubmitting`, `result`, `submitCount`) |
 
 ### Options
 
