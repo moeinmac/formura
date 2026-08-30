@@ -73,10 +73,17 @@ Input, Textarea, Select, Checkbox, Input OTP, Calendar, Popover, Button, Label, 
 
 ## Custom shadcn components
 
+Pass a partial `components` map to swap primitives or whole field widgets. Missing keys keep the bundled defaults.
+
 ```tsx
 import { createShadcnAdapter } from "@formura/adapters/shadcn";
+import { Input } from "@/components/ui/input";
 
-const adapter = createShadcnAdapter();
+const adapter = createShadcnAdapter({
+  components: {
+    Input,
+  },
+});
 ```
 
-Extend `createShadcnAdapter` in your app when you need to swap primitives from your local shadcn install.
+`Input`, `Textarea`, `Checkbox`, and the Select / OTP families are leaf overrides used by the widget switch. `DatePickerField`, `TimePickerField`, `DateTimePickerField`, and `FieldWrapper` replace those composites entirely (their inner Button / Calendar / Popover / Label are not rewired). Call `createShadcnAdapter()` with no arguments for the same adapter as the default export.

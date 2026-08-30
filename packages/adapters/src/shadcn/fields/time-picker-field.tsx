@@ -1,27 +1,12 @@
 import { Clock } from "lucide-react";
 import { useState } from "react";
-import {
-  formatTimeString,
-  HOURS,
-  MINUTES,
-  parseTimeString,
-} from "../lib/date-utils";
+import { formatTimeString, HOURS, MINUTES, parseTimeString } from "../lib/date-utils";
 import { cn } from "../lib/utils";
 import { Button } from "../ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "../ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
-type TimePickerFieldProps = {
+export type TimePickerFieldProps = {
   id: string;
   value: unknown;
   disabled?: boolean;
@@ -29,13 +14,7 @@ type TimePickerFieldProps = {
   onChange: (value: string) => void;
 };
 
-export const TimePickerField = ({
-  id,
-  value,
-  disabled,
-  onBlur,
-  onChange,
-}: TimePickerFieldProps) => {
+export const TimePickerField = ({ id, value, disabled, onBlur, onChange }: TimePickerFieldProps) => {
   const [open, setOpen] = useState(false);
   const timeValue = typeof value === "string" ? value : "";
   const parsed = parseTimeString(timeValue);
@@ -60,10 +39,7 @@ export const TimePickerField = ({
           type="button"
           variant="default"
           disabled={disabled}
-          className={cn(
-            "w-full justify-start text-left font-normal",
-            !parsed && "text-muted-foreground",
-          )}
+          className={cn("w-full justify-start text-left font-normal", !parsed && "text-muted-foreground")}
         >
           <Clock className="h-4 w-4" />
           {parsed ? formatTimeString(hours, minutes) : "Pick a time"}
@@ -71,11 +47,7 @@ export const TimePickerField = ({
       </PopoverTrigger>
       <PopoverContent className="w-auto p-3" align="start">
         <div className="flex gap-2">
-          <Select
-            value={String(hours)}
-            disabled={disabled}
-            onValueChange={(next) => updateTime(Number(next), minutes)}
-          >
+          <Select value={String(hours)} disabled={disabled} onValueChange={(next) => updateTime(Number(next), minutes)}>
             <SelectTrigger className="w-[72px]" aria-label="Hours">
               <SelectValue placeholder="HH" />
             </SelectTrigger>
@@ -88,11 +60,7 @@ export const TimePickerField = ({
             </SelectContent>
           </Select>
           <span className="flex items-center text-sm text-muted-foreground">:</span>
-          <Select
-            value={String(minutes)}
-            disabled={disabled}
-            onValueChange={(next) => updateTime(hours, Number(next))}
-          >
+          <Select value={String(minutes)} disabled={disabled} onValueChange={(next) => updateTime(hours, Number(next))}>
             <SelectTrigger className="w-[72px]" aria-label="Minutes">
               <SelectValue placeholder="MM" />
             </SelectTrigger>

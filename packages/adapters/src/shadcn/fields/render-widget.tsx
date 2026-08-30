@@ -1,26 +1,7 @@
-import type {
-  AdapterFieldProps,
-  FieldOption,
-  FieldWidget,
-} from "@formura/core";
+import type { AdapterFieldProps, FieldOption, FieldWidget } from "@formura/core";
 import type { ZodType } from "zod";
-import { DatePickerField } from "./date-picker-field";
-import { DateTimePickerField } from "./date-time-picker-field";
-import { TimePickerField } from "./time-picker-field";
-import { Checkbox } from "../ui/checkbox";
-import { Input } from "../ui/input";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
-import { Textarea } from "../ui/textarea";
 import { cn } from "../lib/utils";
-
-type FieldProps = AdapterFieldProps;
+import type { ShadcnAdapterComponents } from "../types";
 
 const otpLengthFromSchema = (fieldSchema: ZodType): number => {
   const schema = fieldSchema as {
@@ -33,45 +14,33 @@ const otpLengthFromSchema = (fieldSchema: ZodType): number => {
   return 6;
 };
 
-export const renderShadcnWidget = (props: FieldProps) => {
+export const renderShadcnWidget = (props: AdapterFieldProps, components: ShadcnAdapterComponents) => {
   const { name, value, onChange, onBlur, disabled, meta } = props;
   const widget = meta.widget as FieldWidget;
+  const {
+    Input,
+    Textarea,
+    Checkbox,
+    Select,
+    SelectTrigger,
+    SelectValue,
+    SelectContent,
+    SelectItem,
+    InputOTP,
+    InputOTPGroup,
+    InputOTPSlot,
+    DatePickerField,
+    TimePickerField,
+    DateTimePickerField,
+  } = components;
 
   switch (widget) {
     case "text":
-      return (
-        <Input
-          id={name}
-          name={name}
-          value={String(value ?? "")}
-          disabled={disabled}
-          onBlur={onBlur}
-          onChange={onChange}
-        />
-      );
+      return <Input id={name} name={name} value={String(value ?? "")} disabled={disabled} onBlur={onBlur} onChange={onChange} />;
     case "password":
-      return (
-        <Input
-          id={name}
-          name={name}
-          type="password"
-          value={String(value ?? "")}
-          disabled={disabled}
-          onBlur={onBlur}
-          onChange={onChange}
-        />
-      );
+      return <Input id={name} name={name} type="password" value={String(value ?? "")} disabled={disabled} onBlur={onBlur} onChange={onChange} />;
     case "textarea":
-      return (
-        <Textarea
-          id={name}
-          name={name}
-          value={String(value ?? "")}
-          disabled={disabled}
-          onBlur={onBlur}
-          onChange={onChange}
-        />
-      );
+      return <Textarea id={name} name={name} value={String(value ?? "")} disabled={disabled} onBlur={onBlur} onChange={onChange} />;
     case "number":
       return (
         <Input
@@ -81,22 +50,13 @@ export const renderShadcnWidget = (props: FieldProps) => {
           value={value === undefined || value === null ? "" : String(value)}
           disabled={disabled}
           onBlur={onBlur}
-          onChange={(e) =>
-            onChange(e.target.value === "" ? undefined : Number(e.target.value))
-          }
+          onChange={(e) => onChange(e.target.value === "" ? undefined : Number(e.target.value))}
         />
       );
     case "otp": {
       const length = otpLengthFromSchema(props.fieldSchema);
       return (
-        <InputOTP
-          id={name}
-          maxLength={length}
-          value={String(value ?? "")}
-          disabled={disabled}
-          onBlur={onBlur}
-          onChange={onChange}
-        >
+        <InputOTP id={name} maxLength={length} value={String(value ?? "")} disabled={disabled} onBlur={onBlur} onChange={onChange}>
           <InputOTPGroup>
             {Array.from({ length }).map((_, index) => (
               <InputOTPSlot key={index} index={index} />
@@ -107,11 +67,7 @@ export const renderShadcnWidget = (props: FieldProps) => {
     }
     case "select":
       return (
-        <Select
-          value={String(value ?? "")}
-          disabled={disabled}
-          onValueChange={(next) => onChange(next)}
-        >
+        <Select value={String(value ?? "")} disabled={disabled} onValueChange={(next) => onChange(next)}>
           <SelectTrigger id={name}>
             <SelectValue placeholder="Select an option" />
           </SelectTrigger>
@@ -131,17 +87,12 @@ export const renderShadcnWidget = (props: FieldProps) => {
           {(meta.options ?? []).map((option: FieldOption) => {
             const checked = selected.includes(option.value);
             return (
-              <label
-                key={option.value}
-                className="flex items-center gap-2 text-sm"
-              >
+              <label key={option.value} className="flex items-center gap-2 text-sm">
                 <Checkbox
                   checked={checked}
                   disabled={disabled}
                   onCheckedChange={(isChecked) => {
-                    const next = isChecked
-                      ? [...selected, option.value]
-                      : selected.filter((v) => v !== option.value);
+                    const next = isChecked ? [...selected, option.value] : selected.filter((v) => v !== option.value);
                     onChange(next);
                   }}
                 />
@@ -165,46 +116,12 @@ export const renderShadcnWidget = (props: FieldProps) => {
         </div>
       );
     case "date":
-      return (
-        <DatePickerField
-          id={name}
-          value={value}
-          disabled={disabled}
-          onBlur={onBlur}
-          onChange={onChange}
-        />
-      );
+      return <DatePickerField id={name} value={value} disabled={disabled} onBlur={onBlur} onChange={onChange} />;
     case "time":
-      return (
-        <TimePickerField
-          id={name}
-          value={value}
-          disabled={disabled}
-          onBlur={onBlur}
-          onChange={onChange}
-        />
-      );
-    case "dateTime":
-      return (
-        <DateTimePickerField
-          id={name}
-          value={value}
-          disabled={disabled}
-          onBlur={onBlur}
-          onChange={onChange}
-        />
-      );
+      return <TimePickerField id={name} value={value} disabled={disabled} onBlur={onBlur} onChange={onChange} />;
+    case "datetime":
+      return <DateTimePickerField id={name} value={value} disabled={disabled} onBlur={onBlur} onChange={onChange} />;
     default:
-      return (
-        <Input
-          id={name}
-          name={name}
-          value={String(value ?? "")}
-          disabled={disabled}
-          onBlur={onBlur}
-          onChange={onChange}
-          className={cn()}
-        />
-      );
+      return <Input id={name} name={name} value={String(value ?? "")} disabled={disabled} onBlur={onBlur} onChange={onChange} className={cn()} />;
   }
 };

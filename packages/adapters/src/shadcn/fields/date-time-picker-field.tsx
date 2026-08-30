@@ -1,31 +1,13 @@
 import { CalendarIcon } from "lucide-react";
 import { useState } from "react";
-import {
-  formatDateTime,
-  formatTimeString,
-  getDateValue,
-  HOURS,
-  MINUTES,
-  parseTimeString,
-  setTimeOnDate,
-} from "../lib/date-utils";
+import { formatDateTime, formatTimeString, getDateValue, HOURS, MINUTES, parseTimeString, setTimeOnDate } from "../lib/date-utils";
 import { cn } from "../lib/utils";
 import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "../ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
-type DateTimePickerFieldProps = {
+export type DateTimePickerFieldProps = {
   id: string;
   value: unknown;
   disabled?: boolean;
@@ -33,18 +15,10 @@ type DateTimePickerFieldProps = {
   onChange: (value: Date | undefined) => void;
 };
 
-export const DateTimePickerField = ({
-  id,
-  value,
-  disabled,
-  onBlur,
-  onChange,
-}: DateTimePickerFieldProps) => {
+export const DateTimePickerField = ({ id, value, disabled, onBlur, onChange }: DateTimePickerFieldProps) => {
   const [open, setOpen] = useState(false);
   const selected = getDateValue(value);
-  const timeSource = selected
-    ? formatTimeString(selected.getHours(), selected.getMinutes())
-    : "";
+  const timeSource = selected ? formatTimeString(selected.getHours(), selected.getMinutes()) : "";
   const parsed = parseTimeString(timeSource) ?? { hours: 0, minutes: 0 };
 
   const updateDate = (date: Date | undefined) => {
@@ -74,28 +48,16 @@ export const DateTimePickerField = ({
           type="button"
           variant="default"
           disabled={disabled}
-          className={cn(
-            "w-full justify-start text-left font-normal",
-            !selected && "text-muted-foreground",
-          )}
+          className={cn("w-full justify-start text-left font-normal", !selected && "text-muted-foreground")}
         >
           <CalendarIcon className="h-4 w-4" />
           {selected ? formatDateTime(selected) : "Pick date and time"}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
-        <Calendar
-          mode="single"
-          selected={selected}
-          onSelect={updateDate}
-          disabled={disabled}
-        />
+        <Calendar mode="single" selected={selected} onSelect={updateDate} disabled={disabled} />
         <div className="flex items-center gap-2 border-t border-border p-3">
-          <Select
-            value={String(parsed.hours)}
-            disabled={disabled}
-            onValueChange={(next) => updateTime(Number(next), parsed.minutes)}
-          >
+          <Select value={String(parsed.hours)} disabled={disabled} onValueChange={(next) => updateTime(Number(next), parsed.minutes)}>
             <SelectTrigger className="w-[72px]" aria-label="Hours">
               <SelectValue placeholder="HH" />
             </SelectTrigger>
@@ -108,11 +70,7 @@ export const DateTimePickerField = ({
             </SelectContent>
           </Select>
           <span className="text-sm text-muted-foreground">:</span>
-          <Select
-            value={String(parsed.minutes)}
-            disabled={disabled}
-            onValueChange={(next) => updateTime(parsed.hours, Number(next))}
-          >
+          <Select value={String(parsed.minutes)} disabled={disabled} onValueChange={(next) => updateTime(parsed.hours, Number(next))}>
             <SelectTrigger className="w-[72px]" aria-label="Minutes">
               <SelectValue placeholder="MM" />
             </SelectTrigger>
