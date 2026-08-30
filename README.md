@@ -11,7 +11,7 @@ Formura is a schema-first form library for React and Next.js. Define a Zod objec
 | Package                                    | Version | Description                                              |
 | ------------------------------------------ | ------- | -------------------------------------------------------- |
 | [`@formura/core`](./packages/core)         | 0.0.5   | `createForm`, action helpers, validation, and form state |
-| [`@formura/adapters`](./packages/adapters) | 0.0.4   | UI adapters that render fields from Zod schema metadata  |
+| [`@formura/adapters`](./packages/adapters) | 0.0.5   | UI adapters that render fields from Zod schema metadata  |
 
 ## Install
 
@@ -152,6 +152,10 @@ Include adapter sources in your Tailwind content paths:
 ```
 
 ## Changelog
+
+### 0.0.5 (`@formura/adapters`)
+
+- `createShadcnAdapter({ components })` accepts a partial map to override bundled shadcn primitives and field widgets
 
 ### 0.0.5 (`@formura/core`)
 
